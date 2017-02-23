@@ -60,13 +60,13 @@ msg_sp.trace|290.105.856|79.2|**77.5**|80.2|
 msg_sppm.trace|278.995.864|**14.5**|14.9|19.5|
 msg_sweep3d.trace|125.731.224|50.7|**36.7**|80.4|
 num_brain.trace|141.840.000|82.6|**81.1**|84.5|
-num_comet.trace|107.347.968|83.28|78.84|**76.3**|
+num_comet.trace|107.347.968|83.3|78.8|**76.3**|
 num_control.trace|159.504.744|92.2|90.9|**89.4**|
 num_plasma.trace|35.089.600|0.7|**0.7**|84.5|
-obs_error.trace|62.160.816|80.96|**77.5**|84.4|
+obs_error.trace|62.160.816|81.0|**77.5**|84.4|
 obs_info.trace|18.930.528|75.40|**70.6**|82.4|
 obs_spitzer.trace|198.180.864|93.2|93.7|**86.4**|
-obs_temp.trace|39.934.272|93.14|93.8|**91.7**|
+obs_temp.trace|39.934.272|93.1|93.8|**91.7**|
 
 
 ### Compile:
@@ -77,7 +77,7 @@ obs_temp.trace|39.934.272|93.14|93.8|**91.7**|
         or
   		make AVX2=1
 		
-+ benchmark with other libraries
++ benchmark with other libraries<br />
   download or clone [bitshuffle](https://github.com/kiyo-masui/bitshuffle) or [blosc](https://github.com/Blosc/c-blosc) and type
 
 		make AVX2=1 BLOSC=1

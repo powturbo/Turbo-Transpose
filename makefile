@@ -46,8 +46,11 @@ transpose_avx2.o: transpose.c
 	$(CC) -O3 $(CFLAGS) -DAVX2_ON -march=haswell -mavx2 -falign-loops=32 -c transpose.c -o transpose_avx2.o
 
 
-OB=transpose.o transpose_sse.o transpose_avx2.o tpbench.o
+OB=transpose.o transpose_sse.o tpbench.o
 
+ifeq ($(AVX2),1)
+OB+=transpose_avx2.o 
+endif
 
 ifeq ($(BLOSC),1)
 LDFLAGS+=-lpthread 

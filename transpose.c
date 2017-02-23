@@ -28,9 +28,9 @@
   #ifdef __AVX2__
 #include <immintrin.h>
   #elif defined(__SSSE3__)
-#include <tmmintrin.h>
-  #elif defined(__SSE2__)
 #include <pmmintrin.h>
+  #elif defined(__SSE2__)
+#include <emmintrin.h>
   #endif
 #include "conf.h"
 #include "transpose.h"

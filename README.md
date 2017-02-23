@@ -52,21 +52,21 @@ MB/s: 1.000.000 bytes/second<br>
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace
-|File|File size|TpByte %|TpNibble %|Bitshuffle %|
-|:-------------|---------:|------:|-----:|-----:|
-msg_bt|266.389.432|77.2|**76.5**|81.6|
-msg_lu|194.118.968|82.7|**81.0**|83.7|
-msg_sp|290.105.856|79.2|**77.5**|80.2|
-msg_sppm|278.995.864|**14.5**|14.9|19.5|
-msg_sweep3d|125.731.224|50.7|**36.7**|80.4|
-num_brain|141.840.000|82.6|**81.1**|84.5|
-num_comet|107.347.968|83.3|78.8|**76.3**|
-num_control|159.504.744|92.2|90.9|**89.4**|
-num_plasma|35.089.600|0.7|**0.7**|84.5|
-obs_error|62.160.816|81.0|**77.5**|84.4|
-obs_info|18.930.528|75.4|**70.6**|82.4|
-obs_spitzer|198.180.864|93.2|93.7|**86.4**|
-obs_temp|39.934.272|93.1|93.8|**91.7**|
+|File|File size|lz4 only|TpByte %|TpNibble %|Bitshuffle %|
+|:-------------|---------:|------:|------:|-----:|-----:|
+msg_bt|266.389.432|94.5|77.2|**76.5**|81.6|
+msg_lu|194.118.968|100.4|82.7|**81.0**|83.7|
+msg_sp|290.105.856|100.4|79.2|**77.5**|80.2|
+msg_sppm|278.995.864|18.9|**14.5**|14.9|19.5|
+msg_sweep3d|125.731.224|98.7|50.7|**36.7**|80.4|
+num_brain|141.840.000|100.4|82.6|**81.1**|84.5|
+num_comet|107.347.968|92.8|83.3|78.8|**76.3**|
+num_control|159.504.744|99.6|92.2|90.9|**89.4**|
+num_plasma|35.089.600|75.2|0.7|**0.7**|84.5|
+obs_error|62.160.816|78.7|81.0|**77.5**|84.4|
+obs_info|18.930.528|92.3|75.4|**70.6**|82.4|
+obs_spitzer|198.180.864|95.4|93.2|93.7|**86.4**|
+obs_temp|39.934.272|100.4|93.1|93.8|**91.7**|
 
 
 ### Compile:
@@ -90,7 +90,7 @@ obs_temp|39.934.272|93.1|93.8|**91.7**|
 
         ./tpbench [-s#] [-z] file
 		s# = element size #=2,4,8,16,... (default 4) 
-		-z = only lz77 compression benchmark 
+		-z = only lz77 compression benchmark (bitshuffle package mandatory)
 
 
 ### Function usage:

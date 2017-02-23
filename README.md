@@ -1,6 +1,6 @@
 Turbo Transpose compressor filter for binary data[![Build Status](https://travis-ci.org/powturbo/TurboTranspose.svg?branch=master)](https://travis-ci.org/powturbo/TurboTranspose)
 =================================================
-+ **TurboTranspose: Byte/Nibble** transpose/shuffle for improving compression of binary data (ex. floating point data)
++ **Byte/Nibble** transpose/shuffle for improving compression of binary data (ex. floating point data)
  - :sparkles: **Scalar/SIMD** Transpose/Shuffle 8,16,32,64,... bits 
  - Transparent dynamic CPU detection and **JIT scalar/sse/avx2** switching
  - 100% C (C++ headers), usage as simple as memcpy

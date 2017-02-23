@@ -162,6 +162,9 @@ int main(int argc, char* argv[]) {
     char *tmp; int rc;   
     if(!(tmp = (unsigned char*)malloc(n+1024))) { fprintf(stderr, "malloc error\n"); exit(-1); }
       #ifdef LZ4_ON
+    memrcpy(cpy,in,n); TMBENCH("lz4",rc = LZ4_compress(in, out, n) ,n); tot[0]+=rc; TMBENCH("",LZ4_decompress_fast(out,cpy,n) ,n); memcheck(in,n,cpy);
+    printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
+
     memrcpy(cpy,in,n); TMBENCH("tpbyte+lz4",rc = tplz4enc(in, n,out,esize,tmp) ,n); tot[0]+=rc; TMBENCH("",tplz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
     printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
     

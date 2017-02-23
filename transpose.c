@@ -96,6 +96,7 @@
 #define TPDEC256V 	tp4dec256v
 #include "transpose.c"
 
+//--------------------- CPU detection -------------------------------------------
 #if defined(_MSC_VER) || defined (__INTEL_COMPILER)
 #include <intrin.h>
 #endif
@@ -149,6 +150,7 @@ int cpuiset(void) {
   return _cpuiset;
 }
 
+//---------------------------------------------------------------------------------
 typedef void (*TPFUNC)( unsigned char *in, unsigned n, unsigned char *out);
 
 static TPFUNC _tpe[]  = { 0, 0, tpenc2, 	 tpenc3, tpenc4,      0, 0, 0, tpenc8, 	    0, 0, 0, 0, 0, 0, 0, tpenc16 };
@@ -758,9 +760,9 @@ void TEMPLATE2(TPENC256V, ESIZE)(unsigned char *in, unsigned n, unsigned char *o
 								15, 13, 11, 9, 7, 5, 3, 1, 
                             	14, 12, 10, 8, 6, 4, 2, 0);
     #else
-  __m256i pv = _mm256_set_epi32(7, 3, 6, 2, 5, 1, 4, 0);
+  __m256i pv = _mm256_set_epi32(7, 3, 6, 2, 5, 1, 4, 0),
       #if ESIZE == 4
-  __m256i sv = _mm256_set_epi8(15, 11, 7, 3, 
+          sv = _mm256_set_epi8(15, 11, 7, 3, 
                                14, 10, 6, 2, 
 							   13,  9, 5, 1,
 							   12,  8, 4, 0,
@@ -769,7 +771,7 @@ void TEMPLATE2(TPENC256V, ESIZE)(unsigned char *in, unsigned n, unsigned char *o
 							   13,  9, 5, 1,
 							   12,  8, 4, 0);
       #else
-  __m256i sv = _mm256_set_epi8(15,  7,  
+          sv = _mm256_set_epi8(15,  7,  
                                14,  6,  
 							   13,  5, 
 							   12,  4, 
@@ -784,8 +786,8 @@ void TEMPLATE2(TPENC256V, ESIZE)(unsigned char *in, unsigned n, unsigned char *o
 							   11,  3, 
 							   10,  2, 
 							    9,  1, 
-							    8,  0 );
-  __m256i tv = _mm256_set_epi8(15, 14, 11, 10, 13, 12,  9,  8, 
+							    8,  0 ),
+          tv = _mm256_set_epi8(15, 14, 11, 10, 13, 12,  9,  8, 
 						        7,  6,  3,  2,  5,  4,  1,  0,
 							   15, 14, 11, 10, 13, 12,  9,  8, 
 						        7,  6,  3,  2,  5,  4,  1,  0);
@@ -1075,25 +1077,3 @@ void TEMPLATE2(TPDEC256V, ESIZE)(unsigned char *in, unsigned n, unsigned char *o
 #endif
 #endif
 
-#if 0
-   100000000   100.0   32.00   2168.03    1755.47   ZigZag_32       ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   2194.60    1449.74   Delta_32        ZIPF1.50_0-255-25000000
-
-   100000000   100.0   32.00   2726.12    2450.40   tpbyte 4        ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   1838.74    2053.19   tpnibble 4      ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    788.85     843.42   BitShuffle      ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    660.88     725.85   tpbyte4s        ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    507.59     547.85   BitShuffle 4    ZIPF1.50_0-255-25000000
-
-
-   100000000   100.0   32.00   2663.05    2640.13   tpbyte 2        ZIPF1.50_0-255-25000000 AVX2
-   100000000   100.0   32.00   2733.78    2450.40   tpbyte 4        ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   2673.29    2374.63   tpbyte 8        ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   2280.33    2259.44   tpnibble 2      ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   1837.13    2056.47   tpnibble 4      ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   1922.38    1913.88   Blosc_Shuffle   ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00   1232.32    1665.67   tpnibble 8      ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    539.41     599.26   BitShuffle 8    ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    539.37     548.50   BitShuffle 4    ZIPF1.50_0-255-25000000
-   100000000   100.0   32.00    554.44     528.77   BitShuffle 2    ZIPF1.50_0-255-25000000
-#endif

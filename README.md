@@ -2,7 +2,7 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
 =================================================
 + **Byte/Nibble** transpose/shuffle for improving compression of binary data (ex. floating point data)
  - :sparkles: **Scalar/SIMD** Transpose/Shuffle 8,16,32,64,... bits 
- - Transparent dynamic CPU detection and **JIT scalar/sse/avx2** switching
+ - Dynamic CPU detection and **JIT scalar/sse/avx2** switching
  - 100% C (C++ headers), usage as simple as memcpy
  - Ready and simple to use library, no hassless dependencies
 

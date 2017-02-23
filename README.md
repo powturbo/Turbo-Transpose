@@ -48,7 +48,7 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|7773|9435|Blosc_shuffle 2 AVX2|
 |100.000.000|3879|2547|Bitshuffle 2 AVX2|
 
-###### Compression test
+###### Compression test (transpose/shuffle+lz4)
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace

@@ -21,7 +21,7 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
 - Transpose/Shuffle (No **PURE** cache) benchmark w/ **large** files.
 
 MB/s: 1.000.000 bytes/second<br> 
-**#BOLD** = pareto frontier.<br>
+**BOLD** = pareto frontier.<br>
 
         ./tpbench -s8 file
 |Size |C Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
@@ -52,7 +52,7 @@ MB/s: 1.000.000 bytes/second<br>
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace
-|File|Size|tpbyte%|tp4nibble|Bitshuffle|
+|File|File size|tpbyte %|tp4nibble %|Bitshuffle %|
 |:-------------|---------:|------:|-----:|-----:|
 msg_bt.trace|266.389.432|77.2|**76.5**|81.6|
 msg_lu.trace|194.118.968|82.7|**81.0**|83.7|
@@ -78,8 +78,8 @@ obs_temp.trace|39.934.272|93.14|93.8|**91.7**|
   		make AVX2=1
 		
 + benchmark with other libraries
+  download or clone [bitshuffle](https://github.com/kiyo-masui/bitshuffle) or [blosc](https://github.com/Blosc/c-blosc) and type
 
-        download or clone [bitshuffle](https://github.com/kiyo-masui/bitshuffle) or [blosc](https://github.com/Blosc/c-blosc) and type
 		make AVX2=1 BLOSC=1
 		or
 		make AVX2=1 BITSHUFFLE=1

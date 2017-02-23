@@ -52,7 +52,7 @@ MB/s: 1.000.000 bytes/second<br>
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace
-|File|File size|TpByte %|Tp4Nibble %|Bitshuffle %|
+|File|File size|TpByte %|TpNibble %|Bitshuffle %|
 |:-------------|---------:|------:|-----:|-----:|
 msg_bt.trace|266.389.432|77.2|**76.5**|81.6|
 msg_lu.trace|194.118.968|82.7|**81.0**|83.7|
@@ -97,10 +97,10 @@ obs_temp.trace|39.934.272|93.1|93.8|**91.7**|
 
   **Byte transpose:** 
   >**void tpenc(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);<br>
-  void tp4dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize)**<br />
+  void tpdec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize)**<br />
   in     : input buffer<br />
   n      : number of bytes<br />
-  out    : pointer to output buffer<br />
+  out    : output buffer<br />
   esize  : element size in bytes (2,4,8,...)<br />
 
    
@@ -109,8 +109,8 @@ obs_temp.trace|39.934.272|93.1|93.8|**91.7**|
   void tp4dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize)**<br />
   in     : input buffer<br />
   n      : number of bytes<br />
-  out    : pointer to output buffer<br />
-  esize  : element size in bytes (2,4,8)<br />
+  out    : output buffer<br />
+  esize  : element size in bytes (2,4,8,...)<br />
 
 ### Environment:
 

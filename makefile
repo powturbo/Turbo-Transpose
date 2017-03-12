@@ -28,6 +28,7 @@ endif
 
 ifeq ($(AVX2),1)
 MARCH+=-mavx2 -mbmi2
+CFLAGS+=-DUSE_AVX2
 else
 AVX2=0
 endif
@@ -38,7 +39,7 @@ CFLAGS=-w -Wall $(DEFS)
 all: tpbench
 
 transpose.o: $(TP)transpose.c
-	$(CC) -O3 $(CFLAGS) -DUSE_SSE -DUSE_AVX2 -falign-loops=32 -c $(TP)transpose.c -o transpose.o
+	$(CC) -O3 $(CFLAGS) -DUSE_SSE -falign-loops=32 -c $(TP)transpose.c -o transpose.o
 
 transpose_sse.o: $(TP)transpose.c
 	$(CC) -O3 $(CFLAGS) -DSSE2_ON -mssse3 -falign-loops=32 -c $(TP)transpose.c -o transpose_sse.o

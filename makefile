@@ -23,7 +23,7 @@ ifeq ($(BLOSC),1)
 DEFS+=-DBLOSC
 endif
 
-MARCH=-march=native
+#MARCH=-march=native
 #MARCH=-march=broadwell
 
 ifeq ($(AVX2),1)
@@ -33,18 +33,24 @@ AVX2=0
 endif
 
 CFLAGS=-w -Wall $(DEFS)
+#TP=../ic/
 
 all: tpbench
 
-transpose.o: transpose.c
-	$(CC) -O3 $(CFLAGS) -falign-loops=32 -c transpose.c -o transpose.o
+transpose.o: $(TP)transpose.c
+	$(CC) -O3 $(CFLAGS) -DUSE_SSE -DUSE_AVX2 -falign-loops=32 -c $(TP)transpose.c -o transpose.o
 
-transpose_sse.o: transpose.c
-	$(CC) -O3 $(CFLAGS) -DSSE2_ON -mssse3 -falign-loops=32 -c transpose.c -o transpose_sse.o
+transpose_sse.o: $(TP)transpose.c
+	$(CC) -O3 $(CFLAGS) -DSSE2_ON -mssse3 -falign-loops=32 -c $(TP)transpose.c -o transpose_sse.o
 
-transpose_avx2.o: transpose.c
-	$(CC) -O3 $(CFLAGS) -DAVX2_ON -march=haswell -mavx2 -falign-loops=32 -c transpose.c -o transpose_avx2.o
+transpose_avx2.o: $(TP)transpose.c
+	$(CC) -O3 $(CFLAGS) -DAVX2_ON -march=haswell -mavx2 -falign-functions=32 -falign-loops=32 -c $(TP)transpose.c -o transpose_avx2.o
 
+c-blosc/blosc/shuffle-sse2.o: c-blosc/blosc/shuffle-sse2.c
+	$(CC) -O3 $(CFLAGS) -msse2 -c c-blosc/blosc/shuffle-sse2.c -o c-blosc/blosc/shuffle-sse2.o
+
+c-blosc/blosc/shuffle-generic.o: c-blosc/blosc/shuffle-generic.c
+	$(CC) -O3 $(CFLAGS) -c c-blosc/blosc/shuffle-generic.c -o c-blosc/blosc/shuffle-generic.o
 
 OB=transpose.o transpose_sse.o tpbench.o
 
@@ -55,6 +61,7 @@ endif
 ifeq ($(BLOSC),1)
 LDFLAGS+=-lpthread 
 CFLAGS+=-DSHUFFLE_SSE2_ENABLED -DBLOSC 
+#-DBLOSC_DUMP_CPU_INFO
 #-DPREFER_EXTERNAL_LZ4=ON -DHAVE_LZ4 -DHAVE_LZ4HC -Ibitshuffle/lz4
 ifeq ($(AVX2),1)
 CFLAGS+=-DSHUFFLE_AVX2_ENABLED

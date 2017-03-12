@@ -77,6 +77,8 @@ void tp4dec256v4( unsigned char *in, unsigned n, unsigned char *out);
 void tp4enc256v8( unsigned char *in, unsigned n, unsigned char *out);
 void tp4dec256v8( unsigned char *in, unsigned n, unsigned char *out);
 
+void unshuffle4_avx2(unsigned char* const dest, const unsigned char* const src,
+  const size_t vectorizable_elements, const size_t total_elements);
 #ifdef __cplusplus
 }
 #endif

@@ -21,6 +21,7 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
 - Benchmark w/ 16k buffer
 
 c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
+
         ./tpbench -s8 file -B16K
 |Size |E Time c/t|D Time c/t|Transpose 16 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|

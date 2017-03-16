@@ -1,5 +1,6 @@
 Turbo Transpose compressor filter for binary data [![Build Status](https://travis-ci.org/powturbo/TurboTranspose.svg?branch=master)](https://travis-ci.org/powturbo/TurboTranspose)
 ======================================
+
 + **TurboTranspose: Fastest byte/Nibble transpose/shuffle**
  - **Byte/Nibble** transpose/shuffle for improving compression of binary data (ex. floating point data)
  - :sparkles: **Scalar/SIMD** Transpose/Shuffle 8,16,32,64,... bits

@@ -15,7 +15,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 
 
-###### Speed test 
+##### Speed test 
 - Benchmark w/ 16k buffer
 
 c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
@@ -76,7 +76,7 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|7739|9404|Blosc_shuffle 2|
 |100.000.000|3879|2547|Bitshuffle 2|
 
-###### Compression test (transpose/shuffle+lz4)
+##### Compression test (transpose/shuffle+lz4)
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace

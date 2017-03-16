@@ -35,7 +35,7 @@ else
 AVX2=0
 endif
 
-TP=../ic/
+#TP=../ic/
 
 all: tpbench
 

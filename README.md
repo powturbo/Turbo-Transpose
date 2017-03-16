@@ -49,6 +49,7 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 
 ##### Transpose/Shuffle benchmark w/ **large** files.
 MB/s: 1.000.000 bytes/second<br> 
+
         ./tpbench -s8 file
 |Size |E Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|

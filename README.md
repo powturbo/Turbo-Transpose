@@ -9,7 +9,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Fastest** byte transpose 
 * **Nibble Transpose** 
   * nearly as fast as byte transpose 
-  * more efficient in most binary data files, up to 6 times faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
+  * more efficient in most binary data files, up to **6 times!** faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
   * more robust worst case scenario than bitshuffle
   
 ### Transpose Benchmark:

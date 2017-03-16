@@ -6,14 +6,13 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * :+1: Dynamic CPU detection and **JIT scalar/sse/avx2** switching
   * 100% C (C++ headers), usage as simple as memcpy
 <p>
-+ **Byte Transpose**
- - **Fastest** byte transpose
- - 
+* **Byte Transpose**
+  * **Fastest** byte transpose 
 <p>
-+ **Nibble Transpose** 
- - nearly as fast as byte transpose 
- - more efficient in most binary data files, up to 6 times faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
- - more robust worst case scenario than bitshuffle
+* **Nibble Transpose** 
+  * nearly as fast as byte transpose 
+  * more efficient in most binary data files, up to 6 times faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
+  * more robust worst case scenario than bitshuffle
   
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 

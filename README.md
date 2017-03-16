@@ -5,10 +5,10 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
  - Dynamic CPU detection and **JIT scalar/sse/avx2** switching
  - 100% C (C++ headers), usage as simple as memcpy
  - Ready and simple to use library, no hassless dependencies
-
+<p>
 + **Byte Transpose**
   - **Fastest** byte transpose
-
+<p>
 + **Nibble Transpose** 
   - nearly as fast as byte transpose 
   - more efficient in most binary data files, up to 6 times faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)

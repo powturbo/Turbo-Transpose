@@ -22,7 +22,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
 c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
 
         ./tpbench -s8 file -B16K
-|Size |E Time c/t|D Time c/t|Transpose 16 bits **AVX2**|
+|Size |E Time c/t|D Time c/t|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |16.000|199|**134**|**tpbyte 8**|
 |16.000|326|201|Blosc_shuffle 8|
@@ -38,7 +38,7 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 |16.000|773|476|Bitshuffle 4|
 
         ./tpbench -s2 file -B16K
-|Size |E Time c/t|D Time c/t|Transpose 64 bits **AVX2**|
+|Size |E Time c/t|D Time c/t|Transpose 16 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |16.000|**95**|**71**|**tpbyte 2**|
 |16.000|640|108|Blosc_shuffle 2|

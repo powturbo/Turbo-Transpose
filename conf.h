@@ -180,7 +180,9 @@ static inline unsigned long long ctou64(const void *cp) { unsigned long long x; 
   #endif
 #endif
 
-//---------------------misc ---------------------------------------------------   
+//---------------------misc ---------------------------------------------------
+//#define C64(x) x##ull
+   
 #define SIZE_ROUNDUP(_n_, _a_) (((size_t)(_n_) + (size_t)((_a_) - 1)) & ~(size_t)((_a_) - 1))
   #ifndef min
 #define min(x,y) (((x)<(y)) ? (x) : (y))

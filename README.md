@@ -7,7 +7,7 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
  - Ready and simple to use library, no hassless dependencies
 
 + **Byte Transpose**
-  - Fastest byte transpose
+  - **Fastest** byte transpose
 
 + **Nibble Transpose** 
   - nearly as fast as byte transpose 
@@ -17,7 +17,36 @@ Turbo Transpose compressor filter for binary data[![Build Status](https://travis
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 
 
-###### Speed test
+###### Speed test 
+- Benchmark w/ 16k buffer
+
+c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
+        ./tpbench -s8 file -B16K
+|Size |E Time c/t|D Time c/t|Transpose 16 bits **AVX2**|
+|----------:|------:|------:|-----------------------------------|
+|16.000|199|**134**|**tpbyte 8**|
+|16.000|326|201|Blosc_shuffle 8|
+|16.000|**394**|**260**|**tpnibble 8**|
+|16.000|848|478|Bitshuffle 8|
+
+        ./tpbench -s4 file -B16k
+|Size |E Time c/t|D Time c/t|Transpose 32 bits **AVX2**|
+|----------:|------:|------:|-----------------------------------|
+|16.000|**121**|**102**|**tpbyte 4**|
+|16.000|451|139|Blosc_shuffle 4|
+|16.000|**345**|**229**|**tpnibble 4**|
+|16.000|773|476|Bitshuffle 4|
+
+        ./tpbench -s2 file -B16k
+|Size |E Time c/t|D Time c/t|Transpose 64 bits **AVX2**|
+|----------:|------:|------:|-----------------------------------|
+|16.000|**95**|**71**|**tpbyte 2**|
+|16.000|640|108|Blosc_shuffle 2|
+|16.000|**329**|**198**|**tpnibble 2**|
+|16.000|758|1177|Bitshuffle 2|
+|16.000|**67**|**67**|memcpy|
+
+
 - Transpose/Shuffle (No **PURE** cache) benchmark w/ **large** files.
 
 MB/s: 1.000.000 bytes/second<br> 
@@ -26,9 +55,9 @@ MB/s: 1.000.000 bytes/second<br>
         ./tpbench -s8 file
 |Size |C Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
-|100.000.000|**8378**|**9408**|**tpbyte 8**|
-|100.000.000|7797|8732|**tpnibble 8**|
-|100.000.000|8294|8708|Blosc_shuffle 8 |
+|100.000.000|**8387**|**9408**|**tpbyte 8**|
+|100.000.000|8134|8598|Blosc_shuffle 8 |
+|100.000.000|**7797**|**9145**|**tpnibble 8**|
 |100.000.000|3548|3459|Bitshuffle 8|
 |100.000.000|**13366**|**13366**|memcpy|
 
@@ -36,17 +65,17 @@ MB/s: 1.000.000 bytes/second<br>
 |Size |C Time MB/s|D Time MB/s|Transpose 32 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |100.000.000|**8398**|**9533**|**tpbyte 4**|
-|100.000.000|8398|9307|**tpnibble 4**|
-|100.000.000|8193|9509|Blosc_shuffle|
+|100.000.000|8198|9307|**tpnibble 4**|
+|100.000.000|8193|8796|Blosc_shuffle 4|
 |100.000.000|3679|3666|Bitshuffle 4|
 
         ./tpbench -s2 file
 |Size |C Time MB/s|D Time MB/s|Transpose 16 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |100.000.000|7878|**9542**|**tpbyte 2**|
-|100.000.000|**8968**|9412|**tpnibble 2**|
-|100.000.000|7773|9435|Blosc_shuffle 2 AVX2|
-|100.000.000|3879|2547|Bitshuffle 2 AVX2|
+|100.000.000|**8987**|9412|**tpnibble 2**|
+|100.000.000|7739|9404|Blosc_shuffle 2|
+|100.000.000|3879|2547|Bitshuffle 2|
 
 ###### Compression test (transpose/shuffle+lz4)
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
@@ -126,5 +155,5 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 - [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
 - [Blosc](https://github.com/Blosc/c-blosc)
 
-Last update:  12 MAR 2017
+Last update:  16 MAR 2017
 

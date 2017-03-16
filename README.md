@@ -28,7 +28,7 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 |16.000|**394**|**260**|**tpnibble 8**|
 |16.000|848|478|Bitshuffle 8|
 
-        ./tpbench -s4 file -B16k
+        ./tpbench -s4 file -B16K
 |Size |E Time c/t|D Time c/t|Transpose 32 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |16.000|**121**|**102**|**tpbyte 4**|
@@ -36,7 +36,7 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 |16.000|**345**|**229**|**tpnibble 4**|
 |16.000|773|476|Bitshuffle 4|
 
-        ./tpbench -s2 file -B16k
+        ./tpbench -s2 file -B16K
 |Size |E Time c/t|D Time c/t|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |16.000|**95**|**71**|**tpbyte 2**|

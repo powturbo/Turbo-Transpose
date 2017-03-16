@@ -39,6 +39,8 @@
 //#define RDTSC_ON
 #include "time_.h"
 
+#include "transpose.h"
+
   #ifdef BITSHUFFLE
 #include "bitshuffle/src/bitshuffle.h"
 #include "bitshuffle/lz4/lz4.h"
@@ -49,7 +51,7 @@
 #include "c-blosc/blosc/blosc.h"
   #endif
 
-  int memcheck(unsigned char *in, unsigned n, unsigned char *cpy) { 
+int memcheck(unsigned char *in, unsigned n, unsigned char *cpy) { 
   int i;
   for(i = 0; i < n; i++)
     if(in[i] != cpy[i]) {
@@ -102,11 +104,11 @@ unsigned bslz4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned es
 }
 #endif
 
-#define COD_LAST 5
-void bench(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *cpy, int id) { memrcpy(cpy,in,n);
+#define ID_MEMCPY 5
+void bench(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *cpy, int id) { 
+  memrcpy(cpy,in,n);
   switch(id) {
-    case 1: TMBENCH("tp_byte",  tpenc(in, n,out,esize) ,n); 		TMBENCH("",tpdec(out,n,cpy,esize) ,n); //cpy[0]=1;
-	break;
+    case 1: TMBENCH("tp_byte",  tpenc(in, n,out,esize) ,n); 		TMBENCH("",tpdec(out,n,cpy,esize) ,n);	break;
     case 2: TMBENCH("tp_nibble",tp4enc(in,n,out,esize) ,n); 		TMBENCH("",tp4dec(out,n,cpy,esize) ,n); break;      
       #ifdef BLOSC
     case 3: TMBENCH("blosc shuffle",shuffle(esize,n,in,out), n);	TMBENCH("",unshuffle(esize,n,out,cpy), n); break;
@@ -124,7 +126,7 @@ int main(int argc, char* argv[]) {
   unsigned trips = 15,cmp=1, b = 1 << 30, esize=4, lz=0, fno,id=0;
   
   int c, digit_optind = 0, this_option_optind = optind ? optind : 1, option_index = 0;
-  static struct option long_options[] = { {"blocsize", 	0, 0, 'b'}, {0,0, 0, 0}  };
+  static struct option long_options[] = { {"blocsize", 	0, 0, 'b'}, {0, 0, 0}  };
   for(;;) {
     if((c = getopt_long(argc, argv, "B:ce:i:I:q:s:z", long_options, &option_index)) == -1) break;
     switch(c) {
@@ -162,12 +164,11 @@ int main(int argc, char* argv[]) {
       tm_init(0, 0); 
       TMBENCH("tpdec",tpdec(in,n,out,esize) ,n); // Warmup
       tm_init(trips, 1);  
-      printf("size=%u, element size=%d. detected cpu=%d\n\n", n, esize, cpuini(0));
+      printf("size=%u, element size=%d. detected simd=%s\n\n", n, esize, cpustr(cpuini(0)));
     }
-	for(i=0; i <n; i++) in[i]=i;
-    if(!id) 
-      for(i=1; i <= COD_LAST; i++) bench(in,n,out,esize,cpy,i);      
-    else 
+    if(!id) {
+      for(i=1; i <= ID_MEMCPY; i++) bench(in,n,out,esize,cpy,i);      
+    } else 
       bench(in,n,out,esize,cpy,id);
     
     if(lz) {

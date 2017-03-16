@@ -48,11 +48,9 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 
 
 ##### Transpose/Shuffle benchmark w/ **large** files.
-
 MB/s: 1.000.000 bytes/second<br> 
-
         ./tpbench -s8 file
-|Size |C Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
+|Size |E Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |100.000.000|**8387**|**9408**|**tpbyte 8**|
 |100.000.000|8134|8598|Blosc_shuffle 8 |
@@ -61,7 +59,7 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|**13366**|**13366**|memcpy|
 
         ./tpbench -s4 file
-|Size |C Time MB/s|D Time MB/s|Transpose 32 bits **AVX2**|
+|Size |E Time MB/s|D Time MB/s|Transpose 32 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |100.000.000|**8398**|**9533**|**tpbyte 4**|
 |100.000.000|8198|9307|**tpnibble 4**|
@@ -69,7 +67,7 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|3679|3666|Bitshuffle 4|
 
         ./tpbench -s2 file
-|Size |C Time MB/s|D Time MB/s|Transpose 16 bits **AVX2**|
+|Size |E Time MB/s|D Time MB/s|Transpose 16 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
 |100.000.000|7878|**9542**|**tpbyte 2**|
 |100.000.000|**8987**|9412|**tpnibble 2**|

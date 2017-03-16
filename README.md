@@ -16,7 +16,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
 - CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 
 
 ##### Speed test 
-- Benchmark w/ 16k buffer
+###### Benchmark w/ 16k buffer
 
 c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
 
@@ -46,7 +46,7 @@ c/t: cycles per 1000 bytes. E:Encode, D:Decode<br>
 |16.000|**67**|**67**|memcpy|
 
 
-- Transpose/Shuffle (No **PURE** cache) benchmark w/ **large** files.
+##### Transpose/Shuffle benchmark w/ **large** files.
 
 MB/s: 1.000.000 bytes/second<br> 
 **BOLD** = pareto frontier.<br>

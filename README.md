@@ -11,6 +11,10 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * nearly as fast as byte transpose 
   * more efficient in most binary data files, up to **6 times!** faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
   * more robust worst case scenario than bitshuffle
+* Scalar and SIMD **Transform**
+  * **Delta** encoding for sorted lists
+  * **Zigzag** encoding for unsorted lists
+  * **Xor** encoding
   
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 
@@ -149,5 +153,5 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 - [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
 - [Blosc](https://github.com/Blosc/c-blosc)
 
-Last update:  17 MAR 2017
+Last update:  19 MAR 2017
 

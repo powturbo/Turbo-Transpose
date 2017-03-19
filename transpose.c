@@ -141,7 +141,6 @@ char *cpustr(int cpuiset) {
   else return "none";
 }
 
-
 int cpuiset(void) {
   int c[4] = {0};                               
   if(_cpuiset) return _cpuiset;                                   

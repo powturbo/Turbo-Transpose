@@ -34,23 +34,28 @@
   #elif defined(__SSE2__)
 #include <emmintrin.h>
   #endif
+#pragma warning( disable : 4005) 
+  
 #include "conf.h"
 #include "transpose.h"
+
 #define PREFETCH(_ip_) __builtin_prefetch(_ip_+512)
 //#define PREFETCH(ip)
 
 #define powof2(n) !((n)&((n)-1))
-
+ 
 #define TPENC tpenc
 #define TPDEC tpdec
 
 #define ESIZE 3
 #define STRIDE ESIZE
 #include "transpose.c"
+#undef ESIZE
 
 #define ESIZE 16
 #define STRIDE ESIZE
 #include "transpose.c"
+#undef ESIZE
 
 #define ESIZE 2
 
@@ -65,6 +70,7 @@
 #define TPENC256V   tpenc256v
 #define TPDEC256V 	tpdec256v
 #include "transpose.c"
+#undef STRIDE
 
 #define STRIDE 4
 #define TPENC128V   tp4enc128v
@@ -72,6 +78,7 @@
 #define TPENC256V   tp4enc256v
 #define TPDEC256V 	tp4dec256v
 #include "transpose.c"
+#undef ESIZE
 
 #define ESIZE 4
 
@@ -81,6 +88,7 @@
 #define TPENC256V   tpenc256v
 #define TPDEC256V 	tpdec256v
 #include "transpose.c"
+#undef STRIDE
 
 #define STRIDE 8
 #define TPENC128V   tp4enc128v
@@ -88,6 +96,8 @@
 #define TPENC256V   tp4enc256v
 #define TPDEC256V 	tp4dec256v
 #include "transpose.c"
+#undef ESIZE
+#undef STRIDE
 
 #define ESIZE 8
 
@@ -97,6 +107,7 @@
 #define TPENC256V   tpenc256v
 #define TPDEC256V 	tpdec256v
 #include "transpose.c"
+#undef STRIDE
 
 #define STRIDE 16
 #define TPENC128V   tp4enc128v
@@ -120,7 +131,7 @@ static inline void cpuid(int reg[4], int id) {
 }
 
 static inline unsigned long long xgetbv (int ctr) {	
-    #if(defined _MSC_VER || defined __INTEL_COMPILER)
+    #if(defined _MSC_VER && (_MSC_FULL_VER >= 160040219) || defined __INTEL_COMPILER)
   return _xgetbv(ctr);                                  
     #elif defined(__i386__) || defined(__x86_64__)
   unsigned a, d;
@@ -176,9 +187,10 @@ static TPFUNC _tp4d[] = { 0, 0, tp4enc128v2, tpdec3, tp4dec128v4, 0, 0, 0, tp4en
 static int tpset;
  
 void tpini(int id) { 
+  int i; 
   if(tpset) return; 
   tpset++;   
-  int i = id?id:cpuiset();
+  i = id?id:cpuiset();
   #if defined(USE_AVX2)
   if(i >= 52) {  
     _tpe[2] = tpenc256v2; _tpd[2] = tpdec256v2; _tp4e[2] = tp4enc256v2; _tp4d[2] = tp4dec256v2; 
@@ -196,8 +208,9 @@ void tpini(int id) {
   ;
 }
 
-void tpenc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { if(!tpset) tpini(0);                                   
+void tpenc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   TPFUNC f;	
+  if(!tpset) tpini(0);                                   
   if(esize <= 16 && (f = _tpe[esize])) f(in,n,out);
   else {
     unsigned i, stride=n/esize; 
@@ -210,8 +223,9 @@ void tpenc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   }
 }  
 
-void tpdec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { if(!tpset) tpini(0); 
+void tpdec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   TPFUNC f;	
+  if(!tpset) tpini(0); 
   if(esize <= 16 && (f = _tpd[esize])) f(in,n,out);	
   else {
     unsigned i,stride=n/esize; 
@@ -224,21 +238,23 @@ void tpdec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   }
 }  
 
-void tp4enc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { if(!tpset) tpini(0); 
+void tp4enc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   TPFUNC f;
+  if(!tpset) tpini(0); 
   if(esize <= 16 && (f = _tp4e[esize])) f(in,n,out);
   else tpenc(in,n,out,esize);
 }  
 
-void tp4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { if(!tpset) tpini(0); 
+void tp4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   TPFUNC f;
+  if(!tpset) tpini(0); 
   if(esize <= 16 && (f = _tp4d[esize])) f(in,n,out);
   else tpdec(in,n,out,esize);  
 }
 #endif
 
 #else
-
+	
 #if !defined(SSE2_ON) && !defined(AVX2_ON)
   #if STRIDE == ESIZE
 void TEMPLATE2(TPENC, ESIZE)(unsigned char *in, unsigned n, unsigned char *out) {

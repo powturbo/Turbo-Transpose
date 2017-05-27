@@ -23,17 +23,17 @@
 **/
 #include <stdlib.h>
 #include <stdio.h>
-#include <x86intrin.h>
-#ifdef __APPLE__
+
+  #ifdef __APPLE__
 #include <sys/malloc.h>
-#else
+  #else
 #include <malloc.h>
-#endif
+  #endif
   #ifdef _MSC_VER
 #include "vs/getopt.h"
   #else
 #include <getopt.h> 
-#endif
+  #endif
 
 #include "conf.h"
 //#define RDTSC_ON
@@ -108,15 +108,15 @@ unsigned bslz4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned es
 void bench(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *cpy, int id) { 
   memrcpy(cpy,in,n);
   switch(id) {
-    case 1: TMBENCH("tp_byte",  tpenc(in, n,out,esize) ,n); 		TMBENCH("",tpdec(out,n,cpy,esize) ,n);	break;
-    case 2: TMBENCH("tp_nibble",tp4enc(in,n,out,esize) ,n); 		TMBENCH("",tp4dec(out,n,cpy,esize) ,n); break;      
+    case 1: TMBENCH("\ntp_byte       ",  tpenc(in, n,out,esize) ,n); 		TMBENCH("",tpdec(out,n,cpy,esize) ,n);	break;
+    case 2: TMBENCH("\ntp_nibble     ",tp4enc(in,n,out,esize) ,n); 		TMBENCH("",tp4dec(out,n,cpy,esize) ,n); break;      
       #ifdef BLOSC
-    case 3: TMBENCH("blosc shuffle",shuffle(esize,n,in,out), n);	TMBENCH("",unshuffle(esize,n,out,cpy), n); break;
+    case 3: TMBENCH("\nblosc shuffle ",shuffle(esize,n,in,out), n);	TMBENCH("",unshuffle(esize,n,out,cpy), n); break;
       #endif 	
       #ifdef BITSHUFFLE
-    case 4: TMBENCH("bitshuffle",bshuf_bitshuffle(in,out,(n)/esize,esize,0), n); TMBENCH("",bshuf_bitunshuffle(out,cpy,(n)/esize,esize,0), n);  break;
+    case 4: TMBENCH("\nbitshuffle    ",bshuf_bitshuffle(in,out,(n)/esize,esize,0), n); TMBENCH("",bshuf_bitunshuffle(out,cpy,(n)/esize,esize,0), n);  break;
       #endif
-    case 5: TMBENCH("memcpy",memcpy(in,out,n) ,n);  return;
+    case 5: TMBENCH("\nmemcpy        ",memcpy(in,out,n) ,n);  return;
 	default: return;
   }
   memcheck(in,n,cpy);
@@ -142,66 +142,69 @@ int main(int argc, char* argv[]) {
     }
   }
   if(argc - optind < 1) { fprintf(stderr, "File not specified\n"); exit(-1); }
-
-  unsigned char *in,*out,*cpy;
-  unsigned long long totlen=0,tot[3]={0};
-  for(fno = optind; fno < argc; fno++) {
-    char *inname = argv[fno];  									
-    FILE *fi = fopen(inname, "rb"); 							if(!fi ) { perror(inname); continue; } 							
-    fseek(fi, 0, SEEK_END); 
-    long long flen = ftell(fi); 
-	fseek(fi, 0, SEEK_SET);
+  {
+    unsigned char *in,*out,*cpy;
+    uint64_t totlen=0,tot[3]={0};
+    for(fno = optind; fno < argc; fno++) {
+      long long flen;
+      int n,i;	  
+      char *inname = argv[fno];  									
+      FILE *fi = fopen(inname, "rb"); 							if(!fi ) { perror(inname); continue; } 	
+      fseek(fi, 0, SEEK_END); 
+      flen = ftell(fi); 
+	  fseek(fi, 0, SEEK_SET);
 	
-    if(flen > b) flen = b;
-    int n = flen,i; 
-    if(!(in  =        (unsigned char*)malloc(n+1024)))        { fprintf(stderr, "malloc error\n"); exit(-1); } cpy = in;
-    if(!(out =        (unsigned char*)malloc(flen*4/3+1024))) { fprintf(stderr, "malloc error\n"); exit(-1); } 
-    if(cmp && !(cpy = (unsigned char*)malloc(n+1024)))        { fprintf(stderr, "malloc error\n"); exit(-1); }
-    n = fread(in, 1, n, fi);									printf("File='%s' Length=%u\n", inname, n);			
-    fclose(fi);
-    if(n <= 0) exit(0); 
-    if(fno == optind) {
-      tm_init(0, 0); 
-      TMBENCH("tpdec",tpdec(in,n,out,esize) ,n); // Warmup
-      tm_init(trips, 1);  
-      printf("size=%u, element size=%d. detected simd=%s\n\n", n, esize, cpustr(cpuini(0)));
-    }
-    if(!id) {
-      for(i=1; i <= ID_MEMCPY; i++) bench(in,n,out,esize,cpy,i);      
-    } else 
-      bench(in,n,out,esize,cpy,id);
+      if(flen > b) flen = b;
+      n = flen; 
+      if(!(in  =        (unsigned char*)malloc(n+1024)))        { fprintf(stderr, "malloc error\n"); exit(-1); } cpy = in;
+      if(!(out =        (unsigned char*)malloc(flen*4/3+1024))) { fprintf(stderr, "malloc error\n"); exit(-1); } 
+      if(cmp && !(cpy = (unsigned char*)malloc(n+1024)))        { fprintf(stderr, "malloc error\n"); exit(-1); }
+      n = fread(in, 1, n, fi);									printf("File='%s' Length=%u\n", inname, n);			
+      fclose(fi);
+      if(n <= 0) exit(0); 
+      if(fno == optind) {
+        tm_init(0, 0); 
+        TMBENCH("tpdec",tpdec(in,n,out,esize) ,n); // Warmup
+        tm_init(trips, 1);  
+        printf("size=%u, element size=%d. detected simd=%s\n\n", n, esize, cpustr(cpuini(0)));
+      }
+      if(!id) {
+        for(i=1; i <= ID_MEMCPY; i++) bench(in,n,out,esize,cpy,i);      
+      } else 
+        bench(in,n,out,esize,cpy,id);
     
+      if(lz) {
+        char *tmp; int rc;   
+        totlen += n;
+        // Test Transpose + lz	
+        if(!(tmp = (unsigned char*)malloc(n+1024))) { fprintf(stderr, "malloc error\n"); exit(-1); }
+          #ifdef LZ4_ON
+        memrcpy(cpy,in,n); TMBENCH("lz4",rc = LZ4_compress(in, out, n) ,n); tot[0]+=rc; TMBENCH("",LZ4_decompress_fast(out,cpy,n) ,n); memcheck(in,n,cpy);
+        printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
+
+        memrcpy(cpy,in,n); TMBENCH("tpbyte+lz4",rc = tplz4enc(in, n,out,esize,tmp) ,n); tot[0]+=rc; TMBENCH("",tplz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
+        printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
+    
+        memrcpy(cpy,in,n); TMBENCH("tpnibble+lz4",rc = tp4lz4enc(in, n,out,esize,tmp) ,n); tot[1]+=rc; TMBENCH("",tp4lz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
+        printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);
+          #endif
+
+	      #ifdef BITSHUFFLE
+        memrcpy(cpy,in,n); TMBENCH("bitshuffle+lz4",rc=bslz4enc(in,n,out,esize,tmp), n); tot[2] += rc; TMBENCH("",bslz4dec(out,n,cpy,esize,tmp), n); memcheck(in,n,cpy);
+        printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);	
+          #endif
+        printf("\n");
+        free(tmp); 
+      }
+    }
     if(lz) {
-      totlen += n;
-      // Test Transpose + lz	
-      char *tmp; int rc;   
-      if(!(tmp = (unsigned char*)malloc(n+1024))) { fprintf(stderr, "malloc error\n"); exit(-1); }
-        #ifdef LZ4_ON
-      memrcpy(cpy,in,n); TMBENCH("lz4",rc = LZ4_compress(in, out, n) ,n); tot[0]+=rc; TMBENCH("",LZ4_decompress_fast(out,cpy,n) ,n); memcheck(in,n,cpy);
-      printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
-
-      memrcpy(cpy,in,n); TMBENCH("tpbyte+lz4",rc = tplz4enc(in, n,out,esize,tmp) ,n); tot[0]+=rc; TMBENCH("",tplz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
-      printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
-    
-      memrcpy(cpy,in,n); TMBENCH("tpnibble+lz4",rc = tp4lz4enc(in, n,out,esize,tmp) ,n); tot[1]+=rc; TMBENCH("",tp4lz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
-      printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);
+        #ifdef HAVE_LZ4
+      printf("tplz4enc  :         compressed len=%llu ratio=%.2f %%\n", tot[0], (double)(tot[0]*100.0)/(double)totlen); 
+      printf("tp4lz4enc :         compressed len=%llu ratio=%.2f %%\n", tot[1], (double)(tot[1]*100.0)/(double)totlen); 
         #endif
-
-	    #ifdef BITSHUFFLE
-      memrcpy(cpy,in,n); TMBENCH("bitshuffle+lz4",rc=bslz4enc(in,n,out,esize,tmp), n); tot[2] += rc; TMBENCH("",bslz4dec(out,n,cpy,esize,tmp), n); memcheck(in,n,cpy);
-      printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);	
+        #ifdef BITSHUFFLE
+      printf("bshuf_compress_lz4: compressed len=%llu ratio=%.2f %%\n", tot[2], (double)(tot[2]*100.0)/(double)totlen); 
         #endif
-      printf("\n");
-      free(tmp); 
     }
-  }
-  if(lz) {
-      #ifdef HAVE_LZ4
-    printf("tplz4enc  :         compressed len=%llu ratio=%.2f %%\n", tot[0], (double)(tot[0]*100.0)/(double)totlen); 
-    printf("tp4lz4enc :         compressed len=%llu ratio=%.2f %%\n", tot[1], (double)(tot[1]*100.0)/(double)totlen); 
-      #endif
-      #ifdef BITSHUFFLE
-    printf("bshuf_compress_lz4: compressed len=%llu ratio=%.2f %%\n", tot[2], (double)(tot[2]*100.0)/(double)totlen); 
-      #endif
   }
 }

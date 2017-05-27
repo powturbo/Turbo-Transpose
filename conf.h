@@ -80,16 +80,17 @@ static inline unsigned short bswap16(unsigned short x) { return __builtin_bswap3
 #define THREADLOCAL		__declspec(thread)
 #define likely(x)     	(x)
 #define unlikely(x)   	(x)
-#define __builtin_prefetch(x) //_mm_prefetch(x, _MM_HINT_NTA)
+#define __builtin_prefetch(x) _mm_prefetch(x, _MM_HINT_NTA)
 
-static inline int bsr32(int x) { return x ? 32 - __builtin_clz(x) : 0; }
+static inline int __bsr32(int x) { unsigned long z;      _BitScanReverse(&z, x); return z; }
+static inline int bsr32(  int x) { unsigned long z = -1; _BitScanReverse(&z, x); return z+1; }
     #ifdef _WIN64
-static inline int bsr64(unsigned long long x) { unsigned long z = 0; _BitScanForward64(&z, x); return 64 - z; }
-static inline int clz64(unsigned long long x) { unsigned long z = 0; _BitScanForward64(&z, x); return z; }
-static inline int ctz64(unsigned long long x) { unsigned long z = 0; _BitScanReverse64(&z, x); return z; }
+static inline int bsr64(unsigned long long x) {          long z = -1; _BitScanForward64(&z, x); return z+1; }
+static inline int ctz64(unsigned long long x) { unsigned long z = 0;  _BitScanForward64(&z, x); return z; }
+static inline int clz64(unsigned long long x) { unsigned long z = 0;  _BitScanReverse64(&z, x); return z; }
     #endif
-static inline int clz32(unsigned           x) { unsigned      z = 0; _BitScanForward(  &z, x); return 32 - z; }
-static inline int ctz32(unsigned           x) { unsigned      z = 0; _BitScanReverse(  &z, x); return z; }
+static inline int ctz32(unsigned           x) { unsigned long z = 0;  _BitScanForward(  &z, x); return z; }
+static inline int clz32(unsigned           x) { unsigned long z = 0;  _BitScanReverse(  &z, x); return z; }
 #define rol32(x,s) _lrotl(x, s)
 #define ror32(x,s) _lrotr(x, s)
 
@@ -181,13 +182,7 @@ static inline unsigned long long ctou64(const void *cp) { unsigned long long x; 
 #endif
 
 //---------------------misc ---------------------------------------------------
-//#define C64(x) x##ull
-   
 #define SIZE_ROUNDUP(_n_, _a_) (((size_t)(_n_) + (size_t)((_a_) - 1)) & ~(size_t)((_a_) - 1))
-  #ifndef min
-#define min(x,y) (((x)<(y)) ? (x) : (y))
-#define max(x,y) (((x)>(y)) ? (x) : (y))
-  #endif
   
 #define TEMPLATE2_(_x_, _y_) _x_##_y_
 #define TEMPLATE2(_x_, _y_) TEMPLATE2_(_x_,_y_)

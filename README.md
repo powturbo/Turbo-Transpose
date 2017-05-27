@@ -100,9 +100,19 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 
   		git clone git://github.com/powturbo/TurboTranspose.git
         cd TurboTranspose
+
+##### Linux + Windows MingW 
+ 
   		make
         or
   		make AVX2=1
+
+##### Windows Visual C++
+
+  		nmake /f makefile.vs
+        or
+  		nmake AVX2=1 /f makefile.vs
+
 		
 + benchmark with other libraries<br />
   download or clone [bitshuffle](https://github.com/kiyo-masui/bitshuffle) or [blosc](https://github.com/Blosc/c-blosc) and type
@@ -132,7 +142,7 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 
    
   **Nibble transpose:** 
-  >**void tp4enc(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);<br>
+  >**void tp4enc(   unsigned char *in, unsigned n, unsigned char *out, unsigned esize);<br>
   void tp4dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize)**<br />
   in     : input buffer<br />
   n      : number of bytes<br />
@@ -145,6 +155,7 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 - Linux: GNU GCC (>=4.6)
 - clang (>=3.2)
 - Windows: MinGW-w64
+- Windows: Visual C++ (>=VS2008) 
 
 ###### Multithreading:
 - All TurboTranspose functions are thread safe
@@ -153,5 +164,4 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 - [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
 - [Blosc](https://github.com/Blosc/c-blosc)
 
-Last update:  19 MAR 2017
-
+Last update:  27 MAY 2017

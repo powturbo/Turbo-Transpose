@@ -146,8 +146,8 @@ static int _cpuiset;
 int cpuini(int cpuiset) { if(cpuiset) _cpuiset = cpuiset; return _cpuiset; }
 char *cpustr(int cpuiset) { 
        if(_cpuiset >= 52) return "avx2";
-  else if(_cpuiset >= 31) return "sse3";
   else if(_cpuiset >= 41) return "sse4.1";
+  else if(_cpuiset >= 31) return "sse3";
   else if(_cpuiset >= 20) return "ss2";
   else return "none";
 }

@@ -39,7 +39,7 @@
 #include "conf.h"
 #include "transpose.h"
 
-#define PREFETCH(_ip_) __builtin_prefetch(_ip_+512)
+#define PREFETCH(_ip_) __builtin_prefetch(_ip_+512,0)
 //#define PREFETCH(ip)
 
 #define powof2(n) !((n)&((n)-1))
@@ -117,7 +117,7 @@
 #include "transpose.c"
 
 //--------------------- CPU detection -------------------------------------------
-#if defined(_MSC_VER) || defined (__INTEL_COMPILER)
+#if (_MSC_VER >=1300) || defined (__INTEL_COMPILER)
 #include <intrin.h>
 #endif
 
@@ -130,7 +130,7 @@ static inline void cpuid(int reg[4], int id) {
     #endif
 }
 
-static inline unsigned long long xgetbv (int ctr) {	
+static inline uint64_t xgetbv (int ctr) {	
     #if(defined _MSC_VER && (_MSC_FULL_VER >= 160040219) || defined __INTEL_COMPILER)
   return _xgetbv(ctr);                                  
     #elif defined(__i386__) || defined(__x86_64__)
@@ -139,7 +139,7 @@ static inline unsigned long long xgetbv (int ctr) {
     #else  
   unsigned a=0, d=0;
     #endif
-  return (unsigned long long)d << 32 | a;
+  return (uint64_t)d << 32 | a;
 }
 
 static int _cpuiset;                                  
@@ -180,10 +180,15 @@ int cpuiset(void) {
 //---------------------------------------------------------------------------------
 typedef void (*TPFUNC)( unsigned char *in, unsigned n, unsigned char *out);
 
-static TPFUNC _tpe[]  = { 0, 0, tpenc2, 	 tpenc3, tpenc4,      0, 0, 0, tpenc8, 	    0, 0, 0, 0, 0, 0, 0, tpenc16 };
-static TPFUNC _tpd[]  = { 0, 0, tpdec2, 	 tpdec3, tpdec4,      0, 0, 0, tpdec8, 	    0, 0, 0, 0, 0, 0, 0, tpdec16 };
-static TPFUNC _tp4e[] = { 0, 0, tp4enc128v2, tpenc3, tp4enc128v4, 0, 0, 0, tp4enc128v8, 0, 0, 0, 0, 0, 0, 0, tpenc16 }; // Nibble
-static TPFUNC _tp4d[] = { 0, 0, tp4enc128v2, tpdec3, tp4dec128v4, 0, 0, 0, tp4enc128v8, 0, 0, 0, 0, 0, 0, 0, tpdec16 };
+                       // 0  1       2       3       4      5  6  7       8  9                    16 
+static TPFUNC _tpe[]  = { 0, 0, tpenc2, tpenc3, tpenc4,		0, 0, 0, tpenc8, 0, 0, 0, 0, 0, 0, 0, tpenc16 };
+static TPFUNC _tpd[]  = { 0, 0, tpdec2, tpdec3, tpdec4,		0, 0, 0, tpdec8, 0, 0, 0, 0, 0, 0, 0, tpdec16 };
+ 
+  #ifdef USE_SSE
+static TPFUNC _tp4e[] = { 0, 0, tpenc2, tpenc3, tpenc4,   	0, 0, 0, tpenc8, 0, 0, 0, 0, 0, 0, 0, tpenc16 }; // Nibble
+static TPFUNC _tp4d[] = { 0, 0, tpdec2, tpdec3, tpdec4,    	0, 0, 0, tpdec8, 0, 0, 0, 0, 0, 0, 0, tpdec16 };
+  #endif
+
 static int tpset;
  
 void tpini(int id) { 
@@ -198,7 +203,7 @@ void tpini(int id) {
     _tpe[8] = tpenc256v8; _tpd[8] = tpdec256v8; _tp4e[8] = tp4enc256v8; _tp4d[8] = tp4dec256v8; 
   } else 
   #endif
-  #if defined(USE_SSE)
+  #ifdef USE_SSE
   if(i >= 20) {
     _tpe[2] = tpenc128v2; _tpd[2] = tpdec128v2; _tp4e[2] = tp4enc128v2; _tp4d[2] = tp4dec128v2;
     _tpe[4] = tpenc128v4; _tpd[4] = tpdec128v4; _tp4e[4] = tp4enc128v4; _tp4d[4] = tp4dec128v4;
@@ -238,6 +243,7 @@ void tpdec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) {
   }
 }  
 
+  #ifdef USE_SSE
 void tp4enc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) { 
   TPFUNC f;
   if(!tpset) tpini(0); 
@@ -251,6 +257,7 @@ void tp4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned esize) {
   if(esize <= 16 && (f = _tp4d[esize])) f(in,n,out);
   else tpdec(in,n,out,esize);  
 }
+  #endif
 #endif
 
 #else

@@ -121,7 +121,6 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 		or
 		make AVX2=1 BITSHUFFLE=1
 
-
 ### Testing:
   + benchmark "transpose" functions <br />
 
@@ -164,4 +163,4 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 - [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
 - [Blosc](https://github.com/Blosc/c-blosc)
 
-Last update:  27 MAY 2017
+Last update:  12 JUN 2017

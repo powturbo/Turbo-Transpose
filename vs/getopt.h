@@ -13,7 +13,9 @@
 #define __GETOPT_H__
 
 /* All the headers include this file. */
+#if _MSC_VER >= 1300
 #include <crtdefs.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {

@@ -35,12 +35,18 @@ else
 AVX2=0
 endif
 
+ifeq ($(NSSE2),1)
+else
+OBJS += transpose_sse.obj
+CFLAGS += -DUSE_SSE
+endif
+
 #TP=../ic/
 
 all: tpbench
 
 transpose.o: $(TP)transpose.c
-	$(CC) -O3 $(CFLAGS) -DUSE_SSE -falign-loops=32 -c $(TP)transpose.c -o transpose.o
+	$(CC) -O3 $(CFLAGS) -falign-loops=32 -c $(TP)transpose.c -o transpose.o
 
 transpose_sse.o: $(TP)transpose.c
 	$(CC) -O3 $(CFLAGS) -DSSE2_ON -mssse3 -falign-loops=32 -c $(TP)transpose.c -o transpose_sse.o

@@ -62,6 +62,7 @@ int memcheck(unsigned char *in, unsigned n, unsigned char *cpy) {
 }
 
 #ifdef LZ4_ON
+  #ifdef USE_SSE
 unsigned tp4lz4enc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *tmp) {
   tp4enc(in, n, tmp, esize); 
   return LZ4_compress(tmp, out, n);
@@ -73,6 +74,7 @@ unsigned tp4lz4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned e
   tp4dec(tmp, n, (unsigned char *)out, esize);
   return rc;
 }
+  #endif
 
 unsigned tplz4enc(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *tmp) {
   tpenc(in, n, tmp, esize); 
@@ -108,8 +110,10 @@ unsigned bslz4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned es
 void bench(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *cpy, int id) { 
   memrcpy(cpy,in,n);
   switch(id) {
-    case 1: TMBENCH("\ntp_byte       ",  tpenc(in, n,out,esize) ,n); 		TMBENCH("",tpdec(out,n,cpy,esize) ,n);	break;
-    case 2: TMBENCH("\ntp_nibble     ",tp4enc(in,n,out,esize) ,n); 		TMBENCH("",tp4dec(out,n,cpy,esize) ,n); break;      
+    case 1: TMBENCH("\ntp_byte       ", tpenc(in, n,out,esize) ,n); 	TMBENCH("",tpdec(out,n,cpy,esize) ,n);	break;
+	  #ifdef USE_SSE
+    case 2: TMBENCH("\ntp_nibble     ", tp4enc(in,n,out,esize) ,n); 	TMBENCH("",tp4dec(out,n,cpy,esize) ,n); break;      
+	  #endif
       #ifdef BLOSC
     case 3: TMBENCH("\nblosc shuffle ",shuffle(esize,n,in,out), n);	TMBENCH("",unshuffle(esize,n,out,cpy), n); break;
       #endif 	
@@ -141,12 +145,28 @@ int main(int argc, char* argv[]) {
 	  case 'q': cpuini(atoi(optarg));  break;
     }
   }
+  
+/*  for(i = 1; i < argc; i++) { int c = argv[i][0];  
+    if(c == '-') { char *optarg = &argv[i][1];
+      switch(c) {
+        case  0 : printf("Option %s", long_options[option_index].name); if(optarg) printf (" with arg %s", optarg);  printf ("\n"); break;								
+        case 'e': id     = atoi(optarg);  break;
+        case 's': esize  = atoi(optarg);  break;
+        case 'i': tm_rep = atoi(optarg); if(!tm_rep) tm_rep=1,trips=1;  break;
+        case 'I': trips  = atoi(optarg); if(!trips) trips=1;  break;
+        case 'B': b = argtoi(optarg,1); 	break;
+        case 'z': lz++; 				  	break;
+        case 'c': cmp++; 				  	break;
+	    case 'q': cpuini(atoi(optarg));  break;
+      }
+    }	
+  }*/
   if(argc - optind < 1) { fprintf(stderr, "File not specified\n"); exit(-1); }
   {
     unsigned char *in,*out,*cpy;
     uint64_t totlen=0,tot[3]={0};
     for(fno = optind; fno < argc; fno++) {
-      long long flen;
+      uint64_t flen;
       int n,i;	  
       char *inname = argv[fno];  									
       FILE *fi = fopen(inname, "rb"); 							if(!fi ) { perror(inname); continue; } 	
@@ -184,9 +204,10 @@ int main(int argc, char* argv[]) {
 
         memrcpy(cpy,in,n); TMBENCH("tpbyte+lz4",rc = tplz4enc(in, n,out,esize,tmp) ,n); tot[0]+=rc; TMBENCH("",tplz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
         printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
-    
+            #ifdef USE_SSE2
         memrcpy(cpy,in,n); TMBENCH("tpnibble+lz4",rc = tp4lz4enc(in, n,out,esize,tmp) ,n); tot[1]+=rc; TMBENCH("",tp4lz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
         printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);
+		    #endif
           #endif
 
 	      #ifdef BITSHUFFLE
@@ -200,7 +221,9 @@ int main(int argc, char* argv[]) {
     if(lz) {
         #ifdef HAVE_LZ4
       printf("tplz4enc  :         compressed len=%llu ratio=%.2f %%\n", tot[0], (double)(tot[0]*100.0)/(double)totlen); 
+          #ifdef USE_SSE2
       printf("tp4lz4enc :         compressed len=%llu ratio=%.2f %%\n", tot[1], (double)(tot[1]*100.0)/(double)totlen); 
+          #endif
         #endif
         #ifdef BITSHUFFLE
       printf("bshuf_compress_lz4: compressed len=%llu ratio=%.2f %%\n", tot[2], (double)(tot[2]*100.0)/(double)totlen); 

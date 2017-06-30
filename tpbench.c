@@ -146,21 +146,6 @@ int main(int argc, char* argv[]) {
     }
   }
   
-/*  for(i = 1; i < argc; i++) { int c = argv[i][0];  
-    if(c == '-') { char *optarg = &argv[i][1];
-      switch(c) {
-        case  0 : printf("Option %s", long_options[option_index].name); if(optarg) printf (" with arg %s", optarg);  printf ("\n"); break;								
-        case 'e': id     = atoi(optarg);  break;
-        case 's': esize  = atoi(optarg);  break;
-        case 'i': tm_rep = atoi(optarg); if(!tm_rep) tm_rep=1,trips=1;  break;
-        case 'I': trips  = atoi(optarg); if(!trips) trips=1;  break;
-        case 'B': b = argtoi(optarg,1); 	break;
-        case 'z': lz++; 				  	break;
-        case 'c': cmp++; 				  	break;
-	    case 'q': cpuini(atoi(optarg));  break;
-      }
-    }	
-  }*/
   if(argc - optind < 1) { fprintf(stderr, "File not specified\n"); exit(-1); }
   {
     unsigned char *in,*out,*cpy;
@@ -188,6 +173,7 @@ int main(int argc, char* argv[]) {
         tm_init(trips, 1);  
         printf("size=%u, element size=%d. detected simd=%s\n\n", n, esize, cpustr(cpuini(0)));
       }
+  	  printf("Function         C MB/s    D MB/s");
       if(!id) {
         for(i=1; i <= ID_MEMCPY; i++) bench(in,n,out,esize,cpy,i);      
       } else 

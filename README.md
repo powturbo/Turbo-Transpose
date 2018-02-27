@@ -11,6 +11,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * nearly as fast as byte transpose 
   * more efficient in most binary data files, up to **6 times!** faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
   * more robust worst case scenario than bitshuffle
+  * :new: compress (w/ lz77) better and faster than one of the best floting-point compressors [SPDP](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)
 * Scalar and SIMD **Transform**
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists
@@ -76,25 +77,43 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|3879|2547|Bitshuffle 2|
 
 #### - Compression test (transpose/shuffle+lz4)
-- [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
+- [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/
 
         ./tpbench -s8 -z *.trace
-|File|File size|lz4 only|TpByte %|TpNibble %|Bitshuffle %|
-|:-------------|---------:|------:|------:|-----:|-----:|
-msg_bt|266.389.432|94.5|77.2|__**76.5**__|81.6|
-msg_lu|194.118.968|100.4|82.7|__**81.0**__|83.7|
-msg_sp|290.105.856|100.4|79.2|__**77.5**__|80.2|
-msg_sppm|278.995.864|18.9|__**14.5**__|14.9|19.5|
-msg_sweep3d|125.731.224|98.7|50.7|__**36.7**__|80.4|
-num_brain|141.840.000|100.4|82.6|__**81.1**__|84.5|
-num_comet|107.347.968|92.8|83.3|78.8|__**76.3**__|
-num_control|159.504.744|99.6|92.2|90.9|__**89.4**__|
-num_plasma|35.089.600|75.2|0.7|__**0.7**__|84.5|
-obs_error|62.160.816|78.7|81.0|__**77.5**__|84.4|
-obs_info|18.930.528|92.3|75.4|__**70.6**__|82.4|
-obs_spitzer|198.180.864|95.4|93.2|93.7|__**86.4**__|
-obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
+|File       |File size  |lz4 |TpByte+ly4|TpNibble+ly4|Bitshuffle+ly4|SPDP_10|
+|:----------|-/--------:|---:|------:|-----:|-----:|------:|-----:|
+msg_bt      |266.389.432|94.5|77.2|\___**76.5**__\_|81.6|        77.9|
+msg_lu      |194.118.968|100.4|82.7|\___**81.0**__\_|83.7|       83.3|
+msg_sppm    |278.995.864|18.9|\___**14.5**__\_|14.9|19.5|      21.5|
+msg_sp      |290.105.856|100.4|79.2|\___**77.5**__\_|80.2|       78.8|
+msg_sweep3d |125.731.224|98.7|50.7|\___**36.7**__\_|80.4|   76.2|
+num_brain   |141.840.000|100.4|82.6|\___**81.1**__\_|84.5|    87.8|
+num_comet   |107.347.968|92.8|83.3|78.8|\___**76.3**__\_|     86.5|
+num_control |159.504.744|99.6|92.2|90.9|\___**89.4**__\_|   97.6|
+num_plasma  | 35.089.600|75.2|0.7|\___**0.7**__\_|84.5|       77.3|
+obs_error   | 62.160.816|78.7|81.0|\___**77.5**__\_|84.4|      87.9|
+obs_info    | 18.930.528|92.3|75.4|\___**70.6**__\_|82.4|       81.7|
+obs_spitzer |198.180.864|95.4|93.2|93.7|\___**86.4**__\_|  100.1|
+obs_temp    | 39.934.272|100.4|93.1|93.8|\___**91.7**__\_|      98.0|
 
+- [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
+        ./tpbench -s4 -z *.sp
+
+|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP10|
+|:----------|----------:|----:|---------:|-----------:|-------------:|-----:|
+msg_bt		|266.389.432| 94.3|70.4      |\___**66.4**__\_|73.9| 70.0|
+msg_lu		|194.118.968|100.4|77.1      |\___**70.4**__\_|75.4| 76.8|
+msg_sppm	|278.995.864|11.7|\___**11.6       |12.6**__\_|15.4| 14.4|
+msg_sp		|290.105.856|100.3|68.8      |\___**63.7**__\_|68.1| 67.9|
+msg_sweep3d	|125.731.224| 98.7|35.8      |\___**18.1**__\_|71.0| 69.6|
+num_brain	|141.840.000|100.4|76.5      |\___**71.1**__\_|77.4| 79.1|
+num_comet	|107.347.968| 92.4|79.0      |\___**77.6**__\_|82.1| 84.5|
+num_control	|159.504.744| 99.4|89.5      |90.7|88.1**__\_| 98.3|
+num_plasma	| 35.089.600| 100.4| 0.7     |\___**0.7**__\_|75.5| 30.7|
+obs_error	| 62.160.816|  89.2|73.1     |\___**70.0**__\_|76.9| 78.3|
+obs_info	| 18.930.528|  93.6|70.2     |\___**61.9**__\_|72.9| 62.4|
+obs_spitzer	|198.180.864| 98.3|\___**90.4**__\_|95.6|93.6|100.1|
+obs_temp	| 39.934.272| 100.4|\___**89.5**__\_|92.4|91.0| 99.4|
 
 ### Compile:
 
@@ -162,5 +181,6 @@ obs_temp|39.934.272|100.4|93.1|93.8|__**91.7**__|
 ### References:
 - [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
 - [Blosc](https://github.com/Blosc/c-blosc)
+- [SPDP](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)
 
-Last update:  01 JUL 2017
+Last update:  27 FEB 2018

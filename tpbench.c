@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
 
         memrcpy(cpy,in,n); TMBENCH("tpbyte+lz4",rc = tplz4enc(in, n,out,esize,tmp) ,n); tot[0]+=rc; TMBENCH("",tplz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
         printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n); 
-            #ifdef USE_SSE2
+            #ifdef USE_SSE
         memrcpy(cpy,in,n); TMBENCH("tpnibble+lz4",rc = tp4lz4enc(in, n,out,esize,tmp) ,n); tot[1]+=rc; TMBENCH("",tp4lz4dec(out,n,cpy,esize,tmp) ,n); memcheck(in,n,cpy);
         printf("compressed len=%u ratio=%.2f\n", rc, (double)(rc*100.0)/(double)n);
 		    #endif

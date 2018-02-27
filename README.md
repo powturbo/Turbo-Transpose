@@ -81,7 +81,7 @@ MB/s: 1.000.000 bytes/second<br>
 
         ./tpbench -s4 -z *.sp
 
-|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP10|
+|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle+lz4](#bitshuffle)|[SPDP](#spdp)|
 |:----------|----------:|----:|---------:|-----------:|-------------:|-----:|
 msg_bt		|266.389.432| 94.3|70.4      |__**66.4**__|73.9      |  70.0|
 msg_lu		|194.118.968|100.4|77.1      |__**70.4**__|75.4      |  76.8|
@@ -101,7 +101,7 @@ obs_temp	| 39.934.272| 100.4|__**89.5**__|92.4     |91.0      |  99.4|
 
         ./tpbench -s8 -z *.trace
 
-|File       |File size  |lz4 |TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP_10|
+|File       |File size  |lz4 |TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP|
 |:----------|----------:|---:|---------:|-----------:|-------------:|------:|
 msg_bt      |266.389.432|94.5|77.2|__**76.5**__|81.6| 77.9|
 msg_lu      |194.118.968|100.4|82.7|__**81.0**__|83.7|83.3|
@@ -182,8 +182,8 @@ obs_temp    | 39.934.272|100.4|93.1|93.8|__**91.7**__|98.0|
 - All TurboTranspose functions are thread safe
 
 ### References:
-- [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
-- [Blosc](https://github.com/Blosc/c-blosc)
-- [SPDP](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)
+- <a name="bitshuffle"></a>[Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
+- <a name="blosc"></a>[Blosc](https://github.com/Blosc/c-blosc)
+- <a name="spdp"></a>[SPDP](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)
 
 Last update:  27 FEB 2018

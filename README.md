@@ -80,6 +80,7 @@ MB/s: 1.000.000 bytes/second<br>
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/
 
         ./tpbench -s8 -z *.trace
+
 |File       |File size  |lz4 |TpByte+ly4|TpNibble+ly4|Bitshuffle+ly4|SPDP_10|
 |:----------|-/--------:|---:|------:|-----:|-----:|------:|-----:|
 msg_bt      |266.389.432|94.5|77.2|\___**76.5**__\_|81.6|        77.9|

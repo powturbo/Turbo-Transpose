@@ -1,3 +1,4 @@
+# powturbo  (c) Copyright 2015-2018
 # nmake /f makefile.msc
 # or
 # nmake "AVX2=1" /f makefile.msc

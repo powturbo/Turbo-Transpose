@@ -183,10 +183,10 @@ obs_temp    | 39.934.272|100.4|93.1|93.8|__**91.7**__|98.0|
 
 ### References:
 - <a name="bitshuffle"></a>[Bitshuffle: Filter for improving compression of typed binary data.](https://github.com/kiyo-masui/bitshuffle)<br />
-           [PDF:A compression scheme for radio data in high performance computing](https://arxiv.org/abs/1503.00638)
+           :green_book:[ A compression scheme for radio data in high performance computing](https://arxiv.org/abs/1503.00638)
 - <a name="blosc"></a>[Blosc: A blocking, shuffling and loss-less compression](https://github.com/Blosc/c-blosc)
 - <a name="spdp"></a>[SPDP is a compression/decompression algorithm for binary IEEE 754 32/64 bits floating-point data](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)<br />
-           [PDF: SPDP - An Automatically Synthesized Lossless Compression Algorithm for Floating-Point Data](http://cs.txstate.edu/~mb92/papers/dcc18.pdf)
-- <a name="fpc"></a>[FPC: A High-Speed Compressor for Double-Precision Floating-Point Data](http://www.cs.txstate.edu/~burtscher/papers/tc09.pdf)
+           :green_book:[ SPDP - An Automatically Synthesized Lossless Compression Algorithm for Floating-Point Data](http://cs.txstate.edu/~mb92/papers/dcc18.pdf)
+- <a name="fpc"></a>:green_book:[FPC: A High-Speed Compressor for Double-Precision Floating-Point Data](http://www.cs.txstate.edu/~burtscher/papers/tc09.pdf)
 
 Last update:  28 FEB 2018

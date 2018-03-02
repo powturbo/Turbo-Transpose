@@ -18,7 +18,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Xor** encoding
   
 ### Transpose Benchmark:
-- CPU: Skylake i7-6700 3.4GHz gcc 7.2 single thread 
+- CPU: Skylake i7-6700 3.4GHz gcc 7.2 **single** thread 
 
 #### - Speed test 
 ##### Benchmark w/ 16k buffer

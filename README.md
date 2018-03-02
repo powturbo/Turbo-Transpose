@@ -130,7 +130,7 @@ obs_temp    | 39.934.272|100.4|93.1|93.8|__**91.7**__|98.0|
 
 ### Compile:
 
-  		git clone git://github.com/powturbo/TurboTranspose.git
+		git clone git://github.com/powturbo/TurboTranspose.git
         cd TurboTranspose
 
 ##### Linux + Windows MingW 

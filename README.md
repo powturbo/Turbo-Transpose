@@ -75,7 +75,7 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|7739|9404|Blosc_shuffle 2|
 |100.000.000|3879|2547|Bitshuffle 2|
 
-#### - Compression test (transpose/shuffle+lz)
+#### - Compression test (transpose/shuffle+lz4)
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
 ###### - Speed test (file msg_sweep3d.sp)

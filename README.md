@@ -9,9 +9,9 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Fastest** byte transpose 
 * **Nibble Transpose** 
   * nearly as fast as byte transpose 
-  * more efficient in most binary data files, up to **6 times!** faster than [Bitshuffle](https://github.com/kiyo-masui/bitshuffle)
+  * more efficient in most binary data files, up to **6 times!** faster than [Bitshuffle](#bitshuffle)
   * more robust worst case scenario than bitshuffle
-  * :new: compress (w/ lz77) better compression<br>and **10 times!** faster than one of the best floating-point compressors [SPDP](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)
+  * :new: compress (w/ lz77) better compression<br>and **10 times!** faster than one of the best floating-point compressors [SPDP](#spdp)
 * Scalar and SIMD **Transform**
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists
@@ -90,7 +90,7 @@ File size |ratio %|C MB/s |D MB/s|Name|
 
         ./tpbench -s4 -z *.sp
 
-|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle+lz4](#bitshuffle)|[SPDP](#spdp)|
+|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle](#bitshuffle)+lz4|[SPDP](#spdp)|
 |:----------|----------:|----:|---------:|-----------:|-------------:|-----:|
 msg_bt		|133.194.716| 94.3|70.4      |__**66.4**__|73.9      |  70.0|
 msg_lu		|97.059.484|100.4|77.1      |__**70.4**__|75.4      |  76.8|

@@ -79,7 +79,7 @@ MB/s: 1.000.000 bytes/second<br>
 #### - Compression test (transpose/shuffle+lz)
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
-###### - Speed test (msg_sweep3d.sp)
+###### - Speed test (file msg_sweep3d.sp)
 
 File size |ratio %|C MB/s |D MB/s|Name|
 ---------:|------:|------:|-----:|:--------------|
@@ -87,6 +87,7 @@ File size |ratio %|C MB/s |D MB/s|Name|
  22.489.691 |35.8| 1670|3881|tpbyte+lz    |
  43.471.376 |69.2|  348| 402|SPDP         |
  44.626.407 |71.0| 1065|2101|bitshuffle+lz|
+ 62.865.612 |100.0|14000|14000|memcpy|
 
         ./tpbench -s4 -z *.sp
 

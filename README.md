@@ -18,7 +18,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Xor** encoding
   
 ### Transpose Benchmark:
-- CPU: Skylake i7-6700 3.4GHz gcc 6.2 single thread 
+- CPU: Skylake i7-6700 3.4GHz gcc 7.2 single thread 
 
 #### - Speed test 
 ##### Benchmark w/ 16k buffer
@@ -76,12 +76,12 @@ MB/s: 1.000.000 bytes/second<br>
 |100.000.000|7739|9404|Blosc_shuffle 2|
 |100.000.000|3879|2547|Bitshuffle 2|
 
-#### - Compression test (transpose/shuffle+lz4)
+#### - Compression test (transpose/shuffle+lz)
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
         ./tpbench -s4 -z *.sp
 
-|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle+lz4](#bitshuffle)|[SPDP 1](#spdp)|
+|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle+lz4](#bitshuffle)|[SPDP](#spdp)|
 |:----------|----------:|----:|---------:|-----------:|-------------:|-----:|
 msg_bt		|133.194.716| 94.3|70.4      |__**66.4**__|73.9      |  70.0|
 msg_lu		|97.059.484|100.4|77.1      |__**70.4**__|75.4      |  76.8|
@@ -97,11 +97,20 @@ obs_info	| 9.465.264|  93.6|70.2     |__**61.9**__|72.9      |  62.4|
 obs_spitzer	|99.090.432| 98.3|__**90.4**__ |95.6     |93.6      |100.1|
 obs_temp	| 19.967.136| 100.4|__**89.5**__|92.4     |91.0      |  99.4|
 
+- Speed test (msg_sweep3d.sp)
+
+File size |ratio %|C MB/s |D MB/s|Name|
+---------:|------:|------:|-----:|:--------------|
+ 11348554 |18.1|**2276**|**4425**|**tpnibble+lz**|
+ 22489691 |35.8| 1670|3881|tpbyte+lz    |
+ 43471376 |69.2|  348| 402|SPDP         |
+ 44626407 |71.0| 1065|2101|bitshuffle+lz|
+
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 
         ./tpbench -s8 -z *.trace
 
-|File       |File size  |lz4 |TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP 1|
+|File       |File size  |lz4 |TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP|
 |:----------|----------:|---:|---------:|-----------:|-------------:|------:|
 msg_bt      |266.389.432|94.5|77.2|__**76.5**__|81.6| 77.9|
 msg_lu      |194.118.968|100.4|82.7|__**81.0**__|83.7|83.3|
@@ -189,4 +198,4 @@ obs_temp    | 39.934.272|100.4|93.1|93.8|__**91.7**__|98.0|
            :green_book:[ SPDP - An Automatically Synthesized Lossless Compression Algorithm for Floating-Point Data](http://cs.txstate.edu/~mb92/papers/dcc18.pdf) + [DCC 2018](http://www.cs.brandeis.edu//~dcc/Programs/Program2018.pdf)
 - <a name="fpc"></a>:green_book:[ FPC: A High-Speed Compressor for Double-Precision Floating-Point Data](http://www.cs.txstate.edu/~burtscher/papers/tc09.pdf)
 
-Last update:  28 FEB 2018
+Last update:  2 MAR 2018

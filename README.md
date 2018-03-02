@@ -23,30 +23,30 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
 ##### Benchmark w/ 16k buffer
 
 **BOLD** = pareto frontier.<br>
-c/t: cycles per 1000 bytes. E:Encode, D:Decode<br> 
+E:Encode, D:Decode<br> 
 
         ./tpbench -s# file -B16K   (# = 8,4,2)
-|Size |E Time c/t|D Time c/t|Transpose 64 bits **AVX2**|
+|Size |E Time cycles/byte|D Time cycles/byte|Transpose 64 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
-|16,000|199|**134**|**tpbyte 8**|
-|16,000|326|201|Blosc_shuffle 8|
-|16,000|**394**|**260**|**tpnibble 8**|
-|16,000|848|478|Bitshuffle 8|
+|16,000|.199|**.134**|**tpbyte 8**|
+|16,000|.326|.201|Blosc_shuffle 8|
+|16,000|**.394**|**.260**|**tpnibble 8**|
+|16,000|.848|.478|Bitshuffle 8|
 
-|Size |E Time c/t|D Time c/t|Transpose 32 bits **AVX2**|
+|Size |E Time cycles/byte|D Time cycles/byte|Transpose 32 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
-|16,000|**121**|**102**|**tpbyte 4**|
-|16,000|451|139|Blosc_shuffle 4|
-|16,000|**345**|**229**|**tpnibble 4**|
-|16,000|773|476|Bitshuffle 4|
+|16,000|**.121**|**.102**|**tpbyte 4**|
+|16,000|.451|.139|Blosc_shuffle 4|
+|16,000|**.345**|**.229**|**tpnibble 4**|
+|16,000|.773|.476|Bitshuffle 4|
 
-|Size |E Time c/t|D Time c/t|Transpose 16 bits **AVX2**|
+|Size |E Time cycles/byte|D Time cycles/byte|Transpose 16 bits **AVX2**|
 |----------:|------:|------:|-----------------------------------|
-|16,000|**95**|**71**|**tpbyte 2**|
-|16,000|640|108|Blosc_shuffle 2|
-|16,000|**329**|**198**|**tpnibble 2**|
+|16,000|**.095**|**.071**|**tpbyte 2**|
+|16,000|.640|.108|Blosc_shuffle 2|
+|16,000|**.329**|**.198**|**tpnibble 2**|
 |16,000|758|1177|Bitshuffle 2|
-|16,000|**67**|**67**|memcpy|
+|16,000|**.067**|**.067**|memcpy|
 
 
 ##### Transpose/Shuffle benchmark w/ **large** files.
@@ -79,6 +79,7 @@ MB/s: 1,000,000 bytes/second<br>
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
 ###### - Speed test (file msg_sweep3d)
+C Size:Compressed size, C:Compress, D:Decompress<br> 
 
    C size |ratio %|C MB/s |D MB/s|Name|
 ---------:|------:|------:|-----:|:--------------|

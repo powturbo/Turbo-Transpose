@@ -79,6 +79,15 @@ MB/s: 1.000.000 bytes/second<br>
 #### - Compression test (transpose/shuffle+lz)
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
+####### Speed test (msg_sweep3d.sp)
+
+File size |ratio %|C MB/s |D MB/s|Name|
+---------:|------:|------:|-----:|:--------------|
+ 11348554 |18.1|**2276**|**4425**|**tpnibble+lz**|
+ 22489691 |35.8| 1670|3881|tpbyte+lz    |
+ 43471376 |69.2|  348| 402|SPDP         |
+ 44626407 |71.0| 1065|2101|bitshuffle+lz|
+
         ./tpbench -s4 -z *.sp
 
 |File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle+lz4](#bitshuffle)|[SPDP](#spdp)|
@@ -97,14 +106,6 @@ obs_info	| 9.465.264|  93.6|70.2     |__**61.9**__|72.9      |  62.4|
 obs_spitzer	|99.090.432| 98.3|__**90.4**__ |95.6     |93.6      |100.1|
 obs_temp	| 19.967.136| 100.4|__**89.5**__|92.4     |91.0      |  99.4|
 
-- Speed test (msg_sweep3d.sp)
-
-File size |ratio %|C MB/s |D MB/s|Name|
----------:|------:|------:|-----:|:--------------|
- 11348554 |18.1|**2276**|**4425**|**tpnibble+lz**|
- 22489691 |35.8| 1670|3881|tpbyte+lz    |
- 43471376 |69.2|  348| 402|SPDP         |
- 44626407 |71.0| 1065|2101|bitshuffle+lz|
 
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)
 

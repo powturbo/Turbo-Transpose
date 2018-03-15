@@ -91,7 +91,7 @@ MB/s: 1,000,000 bytes/second<br>
 
         ./tpbench -s4 -z *.sp
 
-|File      |File size  |lz %|Tp8Lz|Tp4Lz|[Bs](#bitshuffle)Lz|[spdp1](#spdp)||[spdp9](#spdp)|Tp4Lzt|eTp4Lzt|
+|File      |File size  |lz %|Tp8Lz|Tp4lz|[BS](#bitshuffle)lz|[spdp1](#spdp)||[spdp9](#spdp)|Tp4lzt|eTp4lzt|
 |:---------|----------:|----:|------:|--------:|-------:|-----:|-|-------:|-------:|----:|
 msg_bt	   |133194716| 94.3|70.4|__**66.4**__|73.9    | 70.0|` `|67.4|**54.7**|*32.4*|
 msg_lu	   | 97059484|100.4|77.1      |__**70.4**__|75.4      | 76.8|` `|74.0|**61.0**|*42.2*|

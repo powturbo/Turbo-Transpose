@@ -15,6 +15,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists
   * **Xor** encoding
+  * Error bound **lossy** floating point conversion
   
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 7.2 **single** thread 
@@ -90,7 +91,7 @@ MB/s: 1,000,000 bytes/second<br>
 
         ./tpbench -s4 -z *.sp
 
-|File      |File size  |lz4 %|Tp8+lz4|TpNib+lz4|[BS](#bitshuffle)+lz4|[SPDP1](#spdp)||[SPDP9](#spdp)|TpNib+lzt|
+|File      |File size  |lz4 %|Tp8+lz4|Tp4+lz4|[BS](#bitshuffle)+lz4|[SPDP1](#spdp)||[SPDP9](#spdp)|Tp4+lzt|
 |:---------|----------:|----:|------:|--------:|-------:|-----:|-|-------:|-------:|
 msg_bt	   |133,194,716| 94.3|70.4|__**66.4**__|73.9    | 70.0|` `|*67.4*|**54.7**|
 msg_lu	   | 97,059,484|100.4|77.1      |__**70.4**__|75.4      | 76.8|` `|*74.0*|**61.0**|
@@ -106,6 +107,7 @@ obs_info   |  9,465,264| 93.6|70.2     |__**61.9**__|72.9      |  62.4|` `|*43.8
 obs_spitzer| 99,090,432| 98.3|__**90.4**__ |95.6     |93.6      |100.1|` `|*100.7*|**80.2**|
 obs_temp   | 19,967,136|100.4|__**89.5**__|92.4     |91.0      |  99.4|` `|*100.1*|**84.0**|
 
+Tp8=Byte transpose, Tp4=Nibble transpose
 Slow compression: SPDP9 and [lzt = lzturbo,39](https://github.com/powturbo/TurboBench)
 
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)

@@ -107,7 +107,8 @@ obs_info   |  9465264| 93.6|70.2     |__**61.9**__|72.9      |  62.4|` `|43.8|**
 obs_spitzer| 99090432| 98.3|__**90.4**__ |95.6     |93.6      |100.1|` `|100.7|**80.2**|*52.3*|
 obs_temp   | 19967136|100.4|__**89.5**__|92.4     |91.0      |  99.4|` `|100.1|**84.0**|*55.8*|
 
-Tp8=Byte transpose, Tp4=Nibble transpose, lz = lz4, eTp4Lzt:lossy compression with error = 0.0001<br />
+Tp8=Byte transpose, Tp4=Nibble transpose, lz = lz4,<br />
+eTp4Lzt=lossy compression with error = 0.0001<br />
 Slow compression: SPDP9 and [lzt = lzturbo,39](https://github.com/powturbo/TurboBench)
 
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)

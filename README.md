@@ -90,7 +90,7 @@ MB/s: 1,000,000 bytes/second<br>
 
         ./tpbench -s4 -z *.sp
 
-|File       |File size  |lz4 %|TpByte+lz4|TpNibble+lz4|[Bitshuffle](#bitshuffle)+lz4|[SPDP](#spdp)|
+|File       |File size  |lz4 %|Tp8+lz4|TpNib+lz4|[BS](#bitshuffle)+lz4|[SPDP1](#spdp)|
 |:----------|----------:|----:|---------:|-----------:|-------------:|-----:|
 msg_bt		|133,194,716| 94.3|70.4      |__**66.4**__|73.9      |  70.0|
 msg_lu		|97,059,484|100.4|77.1      |__**70.4**__|75.4      |  76.8|
@@ -111,7 +111,7 @@ obs_temp	| 19,967,136| 100.4|__**89.5**__|92.4     |91.0      |  99.4|
 
         ./tpbench -s8 -z *.trace
 
-|File       |File size  |lz4 |TpByte+lz4|TpNibble+lz4|Bitshuffle+lz4|SPDP|
+|File       |File size  |lz4 |Tp8+lz4|TpNib+lz4|BS+lz4|SPDP1|
 |:----------|----------:|---:|---------:|-----------:|-------------:|------:|
 msg_bt      |266,389,432|94.5|77.2|__**76.5**__|81.6| 77.9|
 msg_lu      |194,118,968|100.4|82.7|__**81.0**__|83.7|83.3|
@@ -192,7 +192,7 @@ obs_temp    | 39,934,272|100.4|93.1|93.8|__**91.7**__|98.0|
 - All TurboTranspose functions are thread safe
 
 ### References:
-- <a name="bitshuffle"></a>[Bitshuffle: Filter for improving compression of typed binary data.](https://github.com/kiyo-masui/bitshuffle)<br />
+- <a name="bitshuffle"></a>[BS - Bitshuffle: Filter for improving compression of typed binary data.](https://github.com/kiyo-masui/bitshuffle)<br />
            :green_book:[ A compression scheme for radio data in high performance computing](https://arxiv.org/abs/1503.00638)
 - <a name="blosc"></a>[Blosc: A blocking, shuffling and loss-less compression](https://github.com/Blosc/c-blosc)
 - <a name="spdp"></a>[SPDP is a compression/decompression algorithm for binary IEEE 754 32/64 bits floating-point data](http://cs.txstate.edu/~burtscher/research/SPDPcompressor/)<br />

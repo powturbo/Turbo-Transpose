@@ -15,7 +15,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists
   * **Xor** encoding
-  * **lossy** floating point compression with user-defined error
+  * :new: **lossy** floating point compression with user-defined error
   
 ### Transpose Benchmark:
 - CPU: Skylake i7-6700 3.4GHz gcc 7.2 **single** thread 

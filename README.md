@@ -11,6 +11,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * nearly as fast as byte transpose
   * more efficient, up to **6 times!** faster than [Bitshuffle](#bitshuffle)
   * :new: better compression (w/ lz77) and<br> **10 times!** faster than one of the best floating-point compressors [SPDP](#spdp)
+  * compress better and faster as most domain specific floating point compressors
 * Scalar and SIMD **Transform**
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists

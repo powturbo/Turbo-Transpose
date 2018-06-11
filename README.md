@@ -11,7 +11,7 @@ Integer + Floating Point Compression Filter[![Build Status](https://travis-ci.or
   * nearly as fast as byte transpose
   * more efficient, up to **6 times!** faster than [Bitshuffle](#bitshuffle)
   * :new: better compression (w/ lz77) and<br> **10 times!** faster than one of the best floating-point compressors [SPDP](#spdp)
-  * can compress/decompress better and faster than other domain specific floating point compressors
+  * can compress/decompress (w/ lz77) better and faster than other domain specific floating point compressors
 * Scalar and SIMD **Transform**
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists

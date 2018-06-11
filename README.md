@@ -11,7 +11,7 @@ Turbo Transpose compressor filter for binary data [![Build Status](https://travi
   * nearly as fast as byte transpose
   * more efficient, up to **6 times!** faster than [Bitshuffle](#bitshuffle)
   * :new: better compression (w/ lz77) and<br> **10 times!** faster than one of the best floating-point compressors [SPDP](#spdp)
-  * compress better and decompress faster as most domain specific floating point compressors
+  * can compress/decompress better and faster than other domain specific floating point compressors
 * Scalar and SIMD **Transform**
   * **Delta** encoding for sorted lists
   * **Zigzag** encoding for unsorted lists
@@ -113,7 +113,7 @@ obs_spitzer| 99090432| 98.3|**90.4** |95.6     |93.6      |100.1|` `|100.7|**80.
 obs_temp   | 19967136|100.4|**89.5**|92.4     |91.0      |  99.4|` `|100.1|**84.0**|*55.8*|
 
 Tp8=Byte transpose, Tp4=Nibble transpose, lz = lz4<br />
-eTp4Lzt = lossy compression with allowed error = 0.0001<br />
+eTp4Lzt = lossy compression with lzturbo and allowed error = 0.0001 (1e-4)<br />
 *Slow but best compression:* SPDP9 and [lzt = lzturbo,39](https://github.com/powturbo/TurboBench)
 
 - [Scientific IEEE 754 64-Bit Double-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPdouble/)

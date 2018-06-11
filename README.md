@@ -79,7 +79,7 @@ MB/s: 1,000,000 bytes/second<br>
 
 #### - Compression test (transpose/shuffle+lz4)
   :new: Download [IcApp](https://sites.google.com/site/powturbo/downloads) a new benchmark for [TurboPFor](https://github.com/powturbo/TurboPFor)+TurboTranspose<br>
-  for testing allmost all integer and floating point file types.
+  for testing allmost all integer and floating point file types.<br>
   Note: Lossy compression benchmark with icapp only.
 
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)

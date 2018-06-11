@@ -1,4 +1,4 @@
-Filter for Integer + (lossy) Floating Point Compression[![Build Status](https://travis-ci.org/powturbo/TurboTranspose.svg?branch=master)](https://travis-ci.org/powturbo/TurboTranspose)
+Integer/(lossy) Floating Point Compression Filter[![Build Status](https://travis-ci.org/powturbo/TurboTranspose.svg?branch=master)](https://travis-ci.org/powturbo/TurboTranspose)
 ======================================
 * **Fastest transpose/shuffle**
   * **Byte/Nibble** transpose/shuffle for improving compression of binary data (ex. floating point data)

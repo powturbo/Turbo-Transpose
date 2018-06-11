@@ -78,6 +78,10 @@ MB/s: 1,000,000 bytes/second<br>
 |100,000,000|3879|2547|Bitshuffle 2|
 
 #### - Compression test (transpose/shuffle+lz4)
+  :new: Download [IcApp](https://sites.google.com/site/powturbo/downloads) a new benchmark for [TurboPFor](https://github.com/powturbo/TurboPFor)+TurboTranspose<br>
+  for testing allmost all integer and floating point file types.
+  Note: Lossy compression benchmark with icapp only.
+
 - [Scientific IEEE 754 32-Bit Single-Precision Floating-Point Datasets](http://cs.txstate.edu/~burtscher/research/datasets/FPsingle/)
 
 ###### - Speed test (file msg_sweep3d)
@@ -205,4 +209,4 @@ eTp4Lzt = lossy compression with allowed error = 0.0001<br />
            :green_book:[ SPDP - An Automatically Synthesized Lossless Compression Algorithm for Floating-Point Data](http://cs.txstate.edu/~mb92/papers/dcc18.pdf) + [DCC 2018](http://www.cs.brandeis.edu//~dcc/Programs/Program2018.pdf)
 - <a name="fpc"></a>:green_book:[ FPC: A High-Speed Compressor for Double-Precision Floating-Point Data](http://www.cs.txstate.edu/~burtscher/papers/tc09.pdf)
 
-Last update: 16 MAR 2018
+Last update: 11 Jun 2018

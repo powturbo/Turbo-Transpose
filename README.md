@@ -60,7 +60,7 @@ E:Encode, D:Decode<br>
 |  8192|  8192| blosc shuffle  |
 |  **1638**| **2341**|**tp_nibble**|
 |   356|   287| blosc bitshuffle|
-| 16384.00 16384.00| memcpy     |
+| 16384| 16384| memcpy     |
 
 |  E MB/s |    D MB/s| 32 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|

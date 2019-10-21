@@ -75,8 +75,9 @@ E:Encode, D:Decode<br>
 |**5461**|  5461|**blosc shuffle**|
 |**1490**|**1490**|**tp_nibble**|
 |   372|   260| blosc bitshuffle|
+---------------------------------------------------------------------------------
 
-##### Transpose/Shuffle benchmark w/ **large** files (100MB).
+#### Transpose/Shuffle benchmark w/ **large** files (100MB).
 MB/s: 1,000,000 bytes/second<br> 
 
         ./tpbench -s# file  (# = 8,4,2)

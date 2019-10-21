@@ -1,5 +1,5 @@
 /**
-    Copyright (C) powturbo 2013-2018
+    Copyright (C) powturbo 2013-2019
     GPL v2 License
   
     This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
     - twitter  : https://twitter.com/powturbo
     - email    : powturbo [_AT_] gmail [_DOT_] com
 **/
-//   Benchmark timing
+//	    time_.h : time functions
 #include <time.h>
 
 #ifdef _WIN32
@@ -90,12 +90,12 @@ typedef uint64_t tm_t;
 #define tminit() tmrdtscini()
 #define tmtime() tmrdtsc()
 #define TM_T					CLOCKS_PER_SEC
-double TMBS(unsigned l, tm_t t) { double dt=t,dl=l; return t/l; }
+static double TMBS(unsigned l, tm_t t) { double dt=t,dl=l; return t/l; }
 #define TM_C 1000
   #else
 #define TM_T 1000000.0
 #define TM_C 1
-double TMBS(unsigned l, tm_t tm) { double dl=l,dt=tm; return dt>=0.000001?(dl/(1000000.0*TM_F))/(dt/TM_T):0.0; }
+static double TMBS(unsigned l, tm_t tm) { double dl=l,dt=tm; return dt>=0.000001?(dl/(1000000.0*TM_F))/(dt/TM_T):0.0; }
     #ifdef _WIN32
 static LARGE_INTEGER tps;
 static tm_t tmtime(void) { 
@@ -148,15 +148,16 @@ static double tmmsec(tm_t tm) { double d = tm; return d/1000.0; }
 #define TMEND(_len_) _tm_r++; if((_tm_t = tmtime() - _tm_t0) > tm_tx) break; } \
   if(_tm_t < tm_tm) { if(tm_tm == (tm_t)1<<63) tm_rm = _tm_r; tm_tm = _tm_t; _tm_c++; } \
   else if(_tm_t>tm_tm*1.2) TMSLEEP;   													if(tm_verbose) { double d = tm_tm*TM_C,dr=tm_rm; printf("%8.2f %2d_%.2d\b\b\b\b\b\b\b\b\b\b\b\b\b\b",TMBS(_len_, d/dr),_tm_R+1,_tm_c),fflush(stdout); }\
-  if(tmtime()-_tm_ts > tm_TX && _tm_R < 8) break;\
+  if(tmtime()-_tm_ts > tm_TX && _tm_R < tm_RepMin) break;\
   if((_tm_R & 7)==7) sleep(tm_slp),_tm_ts=tmtime(); } }
   
 static unsigned tm_rep = 1<<20, tm_Rep = 3, tm_rep2 = 1<<20, tm_Rep2 = 4, tm_slp = 20, tm_rm;
-static tm_t     tm_tx = TM_T, tm_TX = 120*TM_T, tm_0, tm_T, tm_verbose=1, tm_tm;
+static tm_t     tm_tx = TM_T, tm_TX = 120*TM_T, tm_RepMin=1, tm_0, tm_T, tm_verbose=2, tm_tm;
 static void tm_init(int _tm_Rep, int _tm_verbose) { tm_verbose = _tm_verbose; if(_tm_Rep) tm_Rep = _tm_Rep; tm_tx =  tminit(); Sleep(500); tm_tx = tmtime() - tm_tx; tm_TX = 10*tm_tx; }
 
-#define TMBENCH(_name_, _func_, _len_)  do { if(tm_verbose) printf("%s ", _name_?_name_:#_func_); TMBEG(tm_rep, tm_Rep) _func_; TMEND(_len_); { double dm = tm_tm,dr=tm_rm; if(tm_verbose) printf("%8.2f      \b\b\b\b\b", TMBS(_len_, dm*TM_C/dr) );} } while(0)
-#define TMBENCHF(_name_,_func_, _len_, _res_)  do { if(tm_verbose) printf("%s ", _name_?_name_:#_func_ ); TMBEG(tm_rep, tm_Rep) if(_func_ != _res_) { printf("ERROR: %lld != %lld", (long long)_func_, (long long)_res_ ); exit(0); }; TMEND(_len_); if(tm_verbose) printf("%8.2f      \b\b\b\b\b", TMBS(_len_,(double)tm_tm*TM_C/(double)tm_rm) ); } while(0)
+#define TMBENCH(_name_, _func_, _len_)  do { if(tm_verbose>1) printf("%s ", _name_?_name_:#_func_); TMBEG(tm_rep, tm_Rep) _func_; TMEND(_len_); { double dm = tm_tm,dr=tm_rm; if(tm_verbose) printf("%8.2f      \b\b\b\b\b", TMBS(_len_, dm*TM_C/dr) );} } while(0)
+#define TMBENCH2(_name_, _func_, _len_)  do { TMBEG(tm_rep2, tm_Rep2) _func_; TMEND(_len_); { double dm = tm_tm,dr=tm_rm; if(tm_verbose) printf("%8.2f      \b\b\b\b\b", TMBS(_len_, dm*TM_C/dr) );} if(tm_verbose>1) printf("%s ", _name_?_name_:#_func_); } while(0)
+#define TMBENCHT(_name_,_func_, _len_, _res_)  do { TMBEG(tm_rep, tm_Rep) if(_func_ != _res_) { printf("ERROR: %lld != %lld", (long long)_func_, (long long)_res_ ); exit(0); }; TMEND(_len_); if(tm_verbose) printf("%8.2f      \b\b\b\b\b", TMBS(_len_,(double)tm_tm*TM_C/(double)tm_rm) ); if(tm_verbose) printf("%s ", _name_?_name_:#_func_ ); } while(0)
 
 #define Kb (1u<<10)
 #define Mb (1u<<20)

@@ -1,5 +1,5 @@
 /**
-    Copyright (C) powturbo 2013-2018
+    Copyright (C) powturbo 2013-2019
     GPL v2 License
   
     This program is free software; you can redistribute it and/or modify
@@ -22,21 +22,6 @@
     - email    : powturbo [_AT_] gmail [_DOT_] com
 **/
 //   transpose.h - Byte/Nibble transpose for further compressing with lz77 or other compressors
-
-#ifdef LIB_DLL
-  #ifdef IN_LIB
-#define LIBAPI __declspec(dllexport) //LIBEXPORT  //
-  #elif defined(_WIN32)
-#define LIBAPI __declspec(dllimport)
-  #elif defined(__GNUC__) && (__GNUC__ >= 4)
-#define LIBAPI __attribute__ ((__visibility__ ("default")))
-  #endif
-#endif
-  
-#ifndef LIBAPI
-#define LIBAPI
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -47,62 +32,80 @@ extern "C" {
 // esize : element size in bytes (ex. 2, 4, 8,... )
 
 //---------- High level functions with dynamic cpu detection and JIT scalar/sse/avx2 switching
-LIBAPI void tpenc(       unsigned char *in, unsigned n, unsigned char *out, unsigned esize); // tranpose
-LIBAPI void tpdec(       unsigned char *in, unsigned n, unsigned char *out, unsigned esize); // reverse transpose
+void tpenc(       unsigned char *in, unsigned n, unsigned char *out, unsigned esize); // tranpose
+void tpdec(       unsigned char *in, unsigned n, unsigned char *out, unsigned esize); // reverse transpose
 
-// Nibble transpose
-LIBAPI void tp4enc(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
-LIBAPI void tp4dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
+void tp2denc(unsigned char *in,             unsigned x, unsigned y,             unsigned char *out, unsigned esize); //2D transpose
+void tp2ddec(unsigned char *in,             unsigned x, unsigned y,             unsigned char *out, unsigned esize);
+void tp3denc(unsigned char *in,             unsigned x, unsigned y, unsigned z, unsigned char *out, unsigned esize); //3D transpose
+void tp3ddec(unsigned char *in,             unsigned x, unsigned y, unsigned z, unsigned char *out, unsigned esize);
+void tp4denc(unsigned char *in, unsigned w, unsigned x, unsigned y, unsigned z, unsigned char *out, unsigned esize); //4D transpose
+void tp4ddec(unsigned char *in, unsigned w, unsigned x, unsigned y, unsigned z, unsigned char *out, unsigned esize);
+
+// Nibble transpose SIMD (SSE2,AVX2, ARM Neon)
+void tp4enc(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
+void tp4dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
+
+// bit transpose
+//void tp1enc(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
+//void tp1dec(      unsigned char *in, unsigned n, unsigned char *out, unsigned esize);
 
 //---------- Low level functions ------------------------------------
-LIBAPI void tpenc2(      unsigned char *in, unsigned n, unsigned char *out);  // scalar
-LIBAPI void tpenc3(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc4(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc8(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc16(     unsigned char *in, unsigned n, unsigned char *out);
+void tpenc2(      unsigned char *in, unsigned n, unsigned char *out);  // scalar
+void tpenc3(      unsigned char *in, unsigned n, unsigned char *out);
+void tpenc4(      unsigned char *in, unsigned n, unsigned char *out);
+void tpenc8(      unsigned char *in, unsigned n, unsigned char *out);
+void tpenc16(     unsigned char *in, unsigned n, unsigned char *out);
 
-LIBAPI void tpdec2(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec3(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec4(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec8(      unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec16(     unsigned char *in, unsigned n, unsigned char *out);
+void tpdec2(      unsigned char *in, unsigned n, unsigned char *out);
+void tpdec3(      unsigned char *in, unsigned n, unsigned char *out);
+void tpdec4(      unsigned char *in, unsigned n, unsigned char *out);
+void tpdec8(      unsigned char *in, unsigned n, unsigned char *out);
+void tpdec16(     unsigned char *in, unsigned n, unsigned char *out);
 
-LIBAPI void tpenc128v2(  unsigned char *in, unsigned n, unsigned char *out);   // sse2
-LIBAPI void tpdec128v2(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc128v4(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec128v4(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc128v8(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec128v8(  unsigned char *in, unsigned n, unsigned char *out);
+void tpenc128v2(  unsigned char *in, unsigned n, unsigned char *out);   // sse2
+void tpdec128v2(  unsigned char *in, unsigned n, unsigned char *out);
+void tpenc128v4(  unsigned char *in, unsigned n, unsigned char *out);
+void tpdec128v4(  unsigned char *in, unsigned n, unsigned char *out);
+void tpenc128v8(  unsigned char *in, unsigned n, unsigned char *out);
+void tpdec128v8(  unsigned char *in, unsigned n, unsigned char *out);
 
-LIBAPI void tp4enc128v2( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec128v2( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4enc128v4( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec128v4( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4enc128v8( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec128v8( unsigned char *in, unsigned n, unsigned char *out);
+void tp4enc128v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec128v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp4enc128v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec128v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp4enc128v8( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec128v8( unsigned char *in, unsigned n, unsigned char *out);
 
-LIBAPI void tpenc256v2(  unsigned char *in, unsigned n, unsigned char *out);   // avx2   
-LIBAPI void tpdec256v2(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc256v4(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec256v4(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpenc256v8(  unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tpdec256v8(  unsigned char *in, unsigned n, unsigned char *out);
+void tp1enc128v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp1dec128v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp1enc128v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp1dec128v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp1enc128v8( unsigned char *in, unsigned n, unsigned char *out);
+void tp1dec128v8( unsigned char *in, unsigned n, unsigned char *out);
 
-LIBAPI void tp4enc256v2( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec256v2( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4enc256v4( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec256v4( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4enc256v8( unsigned char *in, unsigned n, unsigned char *out);
-LIBAPI void tp4dec256v8( unsigned char *in, unsigned n, unsigned char *out);
+void tpenc256v2(  unsigned char *in, unsigned n, unsigned char *out);   // avx2   
+void tpdec256v2(  unsigned char *in, unsigned n, unsigned char *out);
+void tpenc256v4(  unsigned char *in, unsigned n, unsigned char *out);
+void tpdec256v4(  unsigned char *in, unsigned n, unsigned char *out);
+void tpenc256v8(  unsigned char *in, unsigned n, unsigned char *out);
+void tpdec256v8(  unsigned char *in, unsigned n, unsigned char *out);
+
+void tp4enc256v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec256v2( unsigned char *in, unsigned n, unsigned char *out);
+void tp4enc256v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec256v4( unsigned char *in, unsigned n, unsigned char *out);
+void tp4enc256v8( unsigned char *in, unsigned n, unsigned char *out);
+void tp4dec256v8( unsigned char *in, unsigned n, unsigned char *out);
 
 //------- CPU instruction set 
 // cpuiset  = 0: return current simd set, 
 // cpuiset != 0: set simd set 0:scalar, 20:sse2, 52:avx2
-LIBAPI int   cpuini(int cpuiset); 
+int   cpuini(int cpuiset); 
 
 // convert simd set to string "sse3", "sse3", "sse4.1" or "avx2" 
 // Ex.: printf("current cpu set=%s\n", cpustr(cpuini(0)) ); 
-LIBAPI char *cpustr(int cpuiset); 
+char *cpustr(int cpuiset); 
 
 #ifdef __cplusplus
 }

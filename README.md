@@ -8,7 +8,7 @@ Integer + Floating Point Compression Filter[![Build Status](https://travis-ci.or
   * 100% C (C++ headers), usage as simple as memcpy
 * **Byte Transpose**
   * **Fastest** byte transpose 
-  * :new: **2D,3D,4D** transpose 
+  * :new: (2019.11) **2D,3D,4D** transpose 
 * **Nibble Transpose** 
   * nearly as fast as byte transpose
   * more efficient, up to **10 times!** faster than [Bitshuffle](#bitshuffle)

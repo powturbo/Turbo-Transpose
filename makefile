@@ -1,24 +1,99 @@
-# powturbo  (c) Copyright 2015-2019
+# powturbo (c) Copyright 2013-2019
+# ----------- Downloading + Compiling ----------------------
+# Download or clone TurboTranspose:
+# git clone git://github.com/powturbo/TurboTranspose.git 
+# make
+
+# Linux: "export CC=clang" "export CXX=clang". windows mingw: "set CC=gcc" "set CXX=g++" or uncomment the CC,CXX lines
 CC ?= gcc
 CXX ?= g++
-#CC=clang
-#CXX=clang++
+#CC=clang-8
+#CXX=clang++-8
 
-#MARCH=-march=native
-#MARCH=-march=broadwell
+#CC = gcc-8
+#CXX = g++-8
 
-ifeq ($(OS),Windows_NT)
-UNAME := Windows
-CC=gcc
-CXX=g++
+#CC=powerpc64le-linux-gnu-gcc
+#CXX=powerpc64le-linux-gnu-g++
+
+DDEBUG=-DNDEBUG -s
+#DDEBUG=-g
+
+ifneq (,$(filter Windows%,$(OS)))
+  OS := Windows
+CFLAGS+=-D__int64_t=int64_t
 else
-UNAME := $(shell uname -s)
-ifeq ($(UNAME),$(filter $(UNAME),Linux Darwin FreeBSD GNU/kFreeBSD))
+  OS := $(shell uname -s)
+  ARCH := $(shell uname -m)
+ifneq (,$(findstring powerpc64le,$(CC)))
+  ARCH = ppc64le
+endif
+ifneq (,$(findstring aarch64,$(CC)))
+  ARCH = aarch64
+endif
+endif
+
+#------ ARMv8 
+ifeq ($(ARCH),aarch64)
+ifneq (,$(findstring clang, $(CC)))
+MSSE=-O3 -march=armv8-a -mcpu=cortex-a72 -falign-loops -fomit-frame-pointer 
+else
+MSSE=-O3 -march=armv8-a -mcpu=cortex-a72 -falign-loops -falign-labels -falign-functions -falign-jumps -fomit-frame-pointer
+endif
+
+else
+# ----- Power9
+ifeq ($(ARCH),ppc64le)
+MSSE=-D__SSE__ -D__SSE2__ -D__SSE3__ -D__SSSE3__
+MARCH=-march=power9 -mtune=power9
+CFLAGS+=-DNO_WARN_X86_INTRINSICS
+CXXFLAGS+=-DNO_WARN_X86_INTRINSICS
+#------ x86_64 : minimum SSE = Sandy Bridge,  AVX2 = haswell 
+else
+MSSE=-march=corei7-avx -mtune=corei7-avx
+# -mno-avx -mno-aes (add for Pentium based Sandy bridge)
+CFLAGS+=-mssse3
+MAVX2=-march=haswell
+endif
+endif
+
+ifeq ($(OS),$(filter $(OS),Linux Darwin GNU/kFreeBSD GNU OpenBSD FreeBSD DragonFly NetBSD MSYS_NT Haiku))
+LDFLAGS+=-lpthread -lm
+ifneq ($(OS),Darwin)
 LDFLAGS+=-lrt
 endif
 endif
 
-CFLAGS+=-w -Wall
+# Minimum CPU architecture 
+#MARCH=-march=native
+MARCH=$(MSSE)
+
+ifeq ($(AVX2),1)
+MARCH+=-mbmi2 -mavx2
+CFLAGS+=-DUSE_AVX2
+CXXFLAGS+=-DUSE_AVX2
+else
+AVX2=0
+endif
+
+#----------------------------------------------
+ifeq ($(STATIC),1)
+LDFLAGS+=-static
+endif
+
+#---------------------- make args --------------------------
+ifeq ($(BLOSC),1)
+DEFS+=-DBLOSC
+endif
+
+ifeq ($(LZ4),1)
+CFLAGS+=-DLZ4 -Ilz4/lib 
+endif
+
+ifeq ($(BITSHUFFLE),1)
+CFLAGS+=-DBITSHUFFLE -Iext/bitshuffle/lz4
+endif
+
 OB=transpose.o tpbench.o
 
 ifneq ($(NSIMD),1)
@@ -30,53 +105,11 @@ MARCH+=-mavx2 -mbmi2
 CFLAGS+=-DUSE_AVX2
 OB+=transpose_avx2.o 
 endif
-
 endif
 
-CC ?= gcc
-CXX ?= g++
-#CC=clang-8
-#CXX=clang++-8
-#CC = gcc-8
-#CXX = g++-8
+CFLAGS+=$(DDEBUG) -w -Wall -std=gnu99 -DUSE_THREADS  -fstrict-aliasing -Iext $(DEFS)
+CXXFLAGS+=$(DDEBUG) -w -fpermissive -Wall -fno-rtti -Iext/FastPFor/headers $(DEFS)
 
-ifeq ($(OS),Windows_NT)
-  UNAME := Windows
-CC=gcc
-CXX=g++
-else
-  UNAME := $(shell uname -s)
-ifeq ($(UNAME),$(filter $(UNAME),Darwin FreeBSD GNU/kFreeBSD Linux NetBSD SunOS))
-LDFLAGS+=-lpthread -lrt 
-UNAMEM := $(shell uname -m)
-endif
-endif
-
-DDEBUG=-DNDEBUG -s
-#DDEBUG=-g
-
-COPT=-falign-loops -falign-functions
-ifeq ($(UNAMEM),aarch64)
-# ARMv8 
-ifneq (,$(findstring clang, $(CC)))
-MSSE=-march=armv8-a 
-COPT= -mcpu=cortex-a72 -fomit-frame-pointer
-else
-MSSE=-march=armv8-a 
-COPT=-mcpu=cortex-a72 -falign-labels -falign-jumps -fomit-frame-pointer
-endif
-#-floop-optimize 
-else
-#Minimum SSE = Sandy Bridge,  AVX2 = haswell 
-MSSE=-march=corei7-avx -mtune=corei7-avx
-# -mno-avx -mno-aes (add for Pentium based Sandy bridge)
-MAVX2=-march=haswell
-endif
-
-# Minimum CPU architecture 
-#MARCH=-march=native
-MARCH=$(MSSE)
-#MARCH=-march=broadwell 
 
 all: tpbench
 
@@ -119,7 +152,7 @@ ifeq ($(AVX2),1)
 CFLAGS+=-DSHUFFLE_AVX2_ENABLED
 OB+=c-blosc2/blosc/shuffle-avx2.o c-blosc2/blosc/bitshuffle-avx2.o
 else
-ifeq ($(UNAMEM),aarch64)
+ifeq ($(ARCH),aarch64)
 CFLAGS+=-DSHUFFLE_NEON_ENABLED 
 OB+=c-blosc2/blosc/shuffle-neon.o c-blosc2/blosc/bitshuffle-neon.o
 else
@@ -133,7 +166,7 @@ else
 ifeq ($(BITSHUFFLE),1)
 CFLAGS+=-DBITSHUFFLE -Ibitshuffle/lz4 -DLZ4_ON
 
-ifeq ($(UNAMEM),aarch64)
+ifeq ($(ARCH),aarch64)
 CFLAGS+=-DUSEARMNEON
 else
 ifeq ($(AVX2),1)
@@ -148,7 +181,7 @@ endif
 endif
 #---------------
 
-tpbench: $(OB)
+tpbench: $(OB) tpbench.o transpose.o
 	$(CC) $^ $(LDFLAGS) -o tpbench
  
 .c.o:
@@ -162,3 +195,4 @@ else
 clean:
 	@find . -type f -name "*\.o" -delete -or -name "*\~" -delete -or -name "core" -delete
 endif
+

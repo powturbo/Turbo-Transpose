@@ -80,7 +80,7 @@ E:Encode, D:Decode<br>
 MB/s: 1,000,000 bytes/second<br> 
 
         ./tpbench -s# file  (# = 8,4,2)
-E MB/s|D MB/s|Transpose 16 bits **AVX2**|
+E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
 |**8416**|**9795**|**tpbyte 2**|
 |**9377**|**9477**|**tpnibble 2**|
@@ -88,14 +88,14 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2**|
 |2758|2532|Blosc bitshuffle 2|
 |**13725**|**13900**|memcpy|
 
-|E MB/s|D MB/s|Transpose 32 bits **AVX2**|
+|E MB/s|D MB/s|Transpose 32 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
 |**8722**|**9647**|**tpbyte 4**|
 |8734|9429|**tpnibble 4**|
 |9181|9030|Blosc shuffle 4|
 |2767|2942|Blosc bitshuffle 4|
 
-|E MB/s|D MB/s|Transpose 64 bits **AVX2**|
+|E MB/s|D MB/s|Transpose 64 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
 |**8998**|**9543**|**tpbyte 8**|
 |8252|9214|**tpnibble 8**|

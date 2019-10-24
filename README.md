@@ -38,7 +38,7 @@ E:Encode, D:Decode<br>
 |**.394**|**.260**|**tpnibble 8**|
 |.848|.478|Bitshuffle 8|
 
-|E cycles/byte|D Time cycles/byte|Transpose 32 bits **AVX2**|
+|E cycles/byte|D cycles/byte|Transpose 32 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**.121**|**.102**|**tpbyte 4**|
 |.451|.139|Blosc_shuffle 4|

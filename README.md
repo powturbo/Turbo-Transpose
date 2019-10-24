@@ -33,46 +33,46 @@ E:Encode, D:Decode<br>
         ./tpbench -s# file -B16K   (# = 8,4,2)
 |E cycles/byte|D cycles/byte|Transpose 64 bits **AVX2**|
 |------:|------:|-----------------------------------|
-|.199|**.134**|**tpbyte 8**|
-|.326|.201|Blosc_shuffle 8|
-|**.394**|**.260**|**tpnibble 8**|
+|.199|**.134**|**TurboTranspose Byte**|
+|.326|.201|Blosc byteshuffle|
+|**.394**|**.260**|**TurboTranspose Nibble**|
 |.848|.478|Bitshuffle 8|
 
 |E cycles/byte|D cycles/byte|Transpose 32 bits **AVX2**|
 |------:|------:|-----------------------------------|
-|**.121**|**.102**|**tpbyte 4**|
-|.451|.139|Blosc_shuffle 4|
-|**.345**|**.229**|**tpnibble 4**|
-|.773|.476|Bitshuffle 4|
+|**.121**|**.102**|**TurboTranspose Byte**|
+|.451|.139|Blosc byteshuffle|
+|**.345**|**.229**|**TurboTranspose Nibble**|
+|.773|.476|Bitshuffle|
 
 |E cycles/byte|D cycles/byte|Transpose 16 bits **AVX2**|
 |------:|------:|-----------------------------------|
-|**.095**|**.071**|**tpbyte 2**|
-|.640|.108|Blosc_shuffle 2|
-|**.329**|**.198**|**tpnibble 2**|
+|**.095**|**.071**|**TurboTranspose Byte**|
+|.640|.108|Blosc byteshuffle|
+|**.329**|**.198**|**TurboTranspose Nibble**|
 |.758|1.177|Bitshuffle 2|
 |**.067**|**.067**|memcpy|
 ----------------------------------------------------------------
 |E MB/s| D MB/s| 16 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
-|**8192**|**16384**|**tp_byte**|
+|**8192**|**16384**|**TurboTranspose Byte**|
 |  8192|  8192| blosc shuffle  |
-|  **1638**| **2341**|**tp_nibble**|
+|  **1638**| **2341**|**TurboTranspose Nibble**|
 |   356|   287| blosc bitshuffle|
 | 16384| 16384| memcpy     |
 
 |  E MB/s |    D MB/s| 32 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
-|**8192**|**8192**|**tp_byte**|
+|**8192**|**8192**|**TurboTranspose Byte**|
 |  8192|  8192| blosc shuffle|
-|**1820**|**2341**|**tp_nibble**|
+|**1820**|**2341**|**TurboTranspose Nibble**|
 |   372|   252| blosc bitshuffle|
 
 |  E MB/s |    D MB/s| 64 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
-|  4096|  **8192**|**tp_byte**|
-|**5461**|  5461|**blosc shuffle**|
-|**1490**|**1490**|**tp_nibble**|
+|  4096|  **8192**|**TurboTranspose Byte**|
+|**5461**|  5461|**blosc byteshuffle**|
+|**1490**|**1490**|**TurboTranspose Nibble**|
 |   372|   260| blosc bitshuffle|
 
 #### Transpose/Shuffle benchmark w/ **large** files (100MB).
@@ -82,46 +82,46 @@ MB/s: 1,000,000 bytes/second<br>
         ./tpbench -s# file  (# = 8,4,2)
 E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**8416**|**9795**|**tpbyte 2**|
-|**9377**|**9477**|**tpnibble 2**|
-|8382|7727|Blosc shuffle 2 |
-|2750|2530|Blosc bitshuffle 2|
-|**13725**|**13900**|memcpy|
+|**9160**|**9795**|**TurboTranspose Byte**|
+|8382|7689|Blosc byteshuffle|
+|**9377**|**9477**|**TurboTranspose Nibble**|
+|2750|2530|Blosc bitshuffle|
+|13725|13900|memcpy|
 
 |E MB/s|D MB/s|Transpose 32 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**8722**|**9647**|**tpbyte 4**|
-|8734|9429|**tpnibble 4**|
-|9181|9030|Blosc shuffle 4|
+|**8722**|**9647**|**TurboTranspose Byte**|
+|9181|9030|Blosc byteshuffle|
+|**8734**|**9429**|**TurboTranspose Nibble**|
 |2767|2942|Blosc bitshuffle 4|
 
 |E MB/s|D MB/s|Transpose 64 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**8998**|**9543**|**tpbyte 8**|
-|8252|9214|**tpnibble 8**|
-|8721|8586|Blosc_shuffle 2|
+|**8998**|**9543**|**TurboTranspose Byte**|
+|8721|8586|Blosc byteshuffle 2|
+|**8252**|**9214**|**TurboTranspose Nibble**|
 |2711|2053|Blosc bitshuffle 2|
 ----------------------------------------------------------
 |  E MB/s |    D MB/s| 16 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-|**678**|**3802**|**tp_byte**|
-|   678|  3771| blosc shuffle|
-|**1360**|**2195**|**tp_nibble**|
-|   357|   280| blosc bitshuffle|
-|  3921|  3913| memcpy|
+|**678**|**3802**|**TurboTranspose Byte**|
+|  678|  3771| blosc byteshuffle|
+|**1360**|**2195**|**TurboTranspose Nibble**|
+|  357|   280| blosc bitshuffle|
+| 3921|  3913| memcpy|
 
 |  E MB/s |    D MB/s| 32 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-| 1744 |**3723**|**tp_byte**|
-|  1769 | 3713| blosc shuffle|
-|**1456**|**2295**|**tp_nibble**|
+| 1744 |**3723**|**TurboTranspose Byte**|
+|**1769**|3713|**blosc byteshuffle**|
+|**1456**|**2295**|**TurboTranspose Nibble**|
 |   374 |  243| blosc bitshuffle|
 
 |  E MB/s |    D MB/s| 64 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-|1558|**3300**|**tp_byte**
-|**1581**| 3300|**blosc shuffle**
-|**1162**|**1267**|**tp_nibble**
+|1558|**3300**|**TurboTranspose Byte**
+|**1581**| 3300|**blosc byteshuffle**
+|**1162**|**1267**|**TurboTranspose Nibble**
 |   331 |  203| blosc bitshuffle
 
 #### - Compression test (transpose/shuffle+lz4)
@@ -135,8 +135,8 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 
    C size |ratio %|C MB/s |D MB/s|Name  AVX2|
 ---------:|------:|------:|-----:|:--------------|
- 11,348,554 |18.1|**2276**|**4425**|**tpnibble+lz**|
- 22,489,691 |35.8| 1670|3881|tpbyte+lz    |
+ 11,348,554 |18.1|**2276**|**4425**|**TurboTranspose Nibble+lz**|
+ 22,489,691 |35.8| 1670|3881|TurboTranspose Byte+lz    |
  43,471,376 |69.2|  348| 402|SPDP         |
  44,626,407 |71.0| 1065|2101|bitshuffle+lz|
  62,865,612 |100.0|13300|13300|memcpy|

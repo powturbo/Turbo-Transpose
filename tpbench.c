@@ -105,31 +105,32 @@ unsigned bslz4dec(unsigned char *in, unsigned n, unsigned char *out, unsigned es
   return rc;
 }
 #endif
- 
+  
 #define ID_MEMCPY 7
 void bench(unsigned char *in, unsigned n, unsigned char *out, unsigned esize, unsigned char *cpy, int id) { 
   memrcpy(cpy,in,n);
   
   switch(id) {
-    case 1:
-      switch(esize) {
-        case  2: TMBENCH("", tpenc2( in, n,out) ,n); 	TMBENCH2("tp_byte2 scalar", tpdec2( out,n,cpy) ,n); break;
-        case  4: TMBENCH("", tpenc4( in, n,out) ,n); 	TMBENCH2("tp_byte4 scalar", tpdec4( out,n,cpy) ,n); break;
-        case  8: TMBENCH("", tpenc8( in, n,out) ,n); 	TMBENCH2("tp_byte8 scalar", tpdec8( out,n,cpy) ,n); break;
-        case 16: TMBENCH("", tpenc16(in, n,out) ,n); 	TMBENCH2("tp_byte16 scalar",tpdec16(out,n,cpy) ,n); break;
-      } break;
-    case 2: TMBENCH("", tpenc(in, n,out,esize) ,n); 	TMBENCH2("tp_byte       ",tpdec(out,n,cpy,esize) ,n);	break;
+    case 1: { TMBENCH("", tpenc(in, n,out,esize) ,n); 	TMBENCH2("tp_byte       ",tpdec(out,n,cpy,esize) ,n); } break;
 	  #ifdef USE_SSE
-    case 3: TMBENCH("", tp4enc(in,n,out,esize) ,n); 	TMBENCH2("tp_nibble     ",tp4dec(out,n,cpy,esize) ,n); break;      
+    case 2: { TMBENCH("", tp4enc(in,n,out,esize) ,n); 	TMBENCH2("tp_nibble     ",tp4dec(out,n,cpy,esize) ,n); } break;      
 	  #endif
       #ifdef BLOSC
-    case 4: TMBENCH("",shuffle(esize,n,in,out), n);	    TMBENCH2("blosc shuffle ",unshuffle(esize,n,out,cpy), n); break;
-    case 5: { unsigned char *tmp = malloc(n); TMBENCH("",bitshuffle(esize,n,in,out,tmp), n); TMBENCH2("blosc bitshuffle ",bitunshuffle(esize,n,out,cpy,tmp), n); free(tmp); } break;
+    case 3: { TMBENCH("",shuffle(esize,n,in,out), n);	    TMBENCH2("blosc shuffle ",unshuffle(esize,n,out,cpy), n); } break;
+    case 4: { unsigned char *tmp = malloc(n); TMBENCH("",bitshuffle(esize,n,in,out,tmp), n); TMBENCH2("blosc bitshuffle ",bitunshuffle(esize,n,out,cpy,tmp), n); free(tmp); } break;
       #endif
       #ifdef BITSHUFFLE
-    case 6: TMBENCH("",bshuf_bitshuffle(in,out,(n)/esize,esize,0), n); TMBENCH2("bitshuffle    ",bshuf_bitunshuffle(out,cpy,(n)/esize,esize,0), n);  break;
+    case 5: { TMBENCH("",bshuf_bitshuffle(in,out,(n)/esize,esize,0), n); TMBENCH2("bitshuffle    ",bshuf_bitunshuffle(out,cpy,(n)/esize,esize,0), n); } break;
       #endif
-    case 7: TMBENCH("",memcpy(in,out,n) ,n); TMBENCH2("memcpy        ",memcpy(cpy,out,n) ,n); break;
+    case 6: TMBENCH("",memcpy(in,out,n) ,n); TMBENCH2("memcpy        ",memcpy(cpy,out,n) ,n); break;
+    case 7: 
+      switch(esize) {
+        case  2: { TMBENCH("", tpenc2( in, n,out) ,n); 	TMBENCH2("tp_byte2 scalar", tpdec2( out,n,cpy) ,n); } break;
+        case  4: { TMBENCH("", tpenc4( in, n,out) ,n); 	TMBENCH2("tp_byte4 scalar", tpdec4( out,n,cpy) ,n); } break;
+        case  8: { TMBENCH("", tpenc8( in, n,out) ,n); 	TMBENCH2("tp_byte8 scalar", tpdec8( out,n,cpy) ,n); } break;
+        case 16: { TMBENCH("", tpenc16(in, n,out) ,n); 	TMBENCH2("tp_byte16 scalar",tpdec16(out,n,cpy) ,n); } break;
+      } 
+      break;
 	default: return;
   }
   printf("\n");

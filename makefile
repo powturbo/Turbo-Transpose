@@ -58,7 +58,7 @@ endif
 endif
 
 ifeq ($(OS),$(filter $(OS),Linux Darwin GNU/kFreeBSD GNU OpenBSD FreeBSD DragonFly NetBSD MSYS_NT Haiku))
-LDFLAGS+=-lpthread -lm
+#LDFLAGS+=-lpthread -lm
 ifneq ($(OS),Darwin)
 LDFLAGS+=-lrt
 endif
@@ -151,14 +151,13 @@ c-blosc2/blosc/bitshuffle-generic.o c-blosc2/blosc/btune.o c-blosc2/blosc/fastco
 ifeq ($(AVX2),1)
 CFLAGS+=-DSHUFFLE_AVX2_ENABLED
 OB+=c-blosc2/blosc/shuffle-avx2.o c-blosc2/blosc/bitshuffle-avx2.o
-else
+endif
 ifeq ($(ARCH),aarch64)
 CFLAGS+=-DSHUFFLE_NEON_ENABLED 
 OB+=c-blosc2/blosc/shuffle-neon.o c-blosc2/blosc/bitshuffle-neon.o
 else
 CFLAGS+=-DSHUFFLE_SSE2_ENABLED 
 OB+=c-blosc2/blosc/bitshuffle-sse2.o c-blosc2/blosc/shuffle-sse2.o
-endif
 endif
 
 else

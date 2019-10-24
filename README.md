@@ -90,7 +90,7 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 
 |E MB/s|D MB/s|Transpose 32 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**8722**|**9647**|**TurboTranspose Byte**|
+|**9694**|**9647**|**TurboTranspose Byte**|
 |9181|9030|Blosc byteshuffle|
 |**8734**|**9429**|**TurboTranspose Nibble**|
 |2767|2942|Blosc bitshuffle 4|

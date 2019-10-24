@@ -104,23 +104,23 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 ----------------------------------------------------------
 |  E MB/s |    D MB/s| 16 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-|**678**|**3802**|**TurboTranspose Byte**|
-|  678|  3771| blosc byteshuffle|
-|**1360**|**2195**|**TurboTranspose Nibble**|
+|**872**|**3998**|**TurboTranspose Byte**|
+|  678|  3852| blosc byteshuffle|
+|**1361**|**2195**|**TurboTranspose Nibble**|
 |  357|   280| blosc bitshuffle|
 | 3921|  3913| memcpy|
 
 |  E MB/s |    D MB/s| 32 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-| 1744 |**3723**|**TurboTranspose Byte**|
-|**1769**|3713|**blosc byteshuffle**|
+|**1800**|**3768**|**TurboTranspose Byte**|
+|1769|3713|**blosc byteshuffle**|
 |**1456**|**2295**|**TurboTranspose Nibble**|
 |   374 |  243| blosc bitshuffle|
 
 |  E MB/s |    D MB/s| 64 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-|1558|**3300**|**TurboTranspose Byte**
-|**1581**| 3300|**blosc byteshuffle**
+|**1793**|**3572**|**TurboTranspose Byte**
+|1784| 3544|**blosc byteshuffle**
 |**1162**|**1267**|**TurboTranspose Nibble**
 |   331 |  203| blosc bitshuffle
 

@@ -56,7 +56,7 @@ E:Encode, D:Decode<br>
 |E MB/s| D MB/s| 16 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
 |**8192**|**16384**|**TurboTranspose Byte**|
-|  8192|  8192| blosc shuffle  |
+|  8192|  8192| blosc byteshuffle  |
 |  **1638**| **2341**|**TurboTranspose Nibble**|
 |   356|   287| blosc bitshuffle|
 | 16384| 16384| memcpy     |
@@ -64,7 +64,7 @@ E:Encode, D:Decode<br>
 |  E MB/s |    D MB/s| 32 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
 |**8192**|**8192**|**TurboTranspose Byte**|
-|  8192|  8192| blosc shuffle|
+|  8192|  8192| blosc byteshuffle|
 |**1820**|**2341**|**TurboTranspose Nibble**|
 |   372|   252| blosc bitshuffle|
 

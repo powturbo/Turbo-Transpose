@@ -35,10 +35,11 @@ endif
 
 #------ ARMv8 
 ifeq ($(ARCH),aarch64)
+CFLAGS+=-march=armv8-a
 ifneq (,$(findstring clang, $(CC)))
-MSSE=-O3 -march=armv8-a -mcpu=cortex-a72 -falign-loops -fomit-frame-pointer 
+MSSE=-O3 -mcpu=cortex-a72 -falign-loops -fomit-frame-pointer
 else
-MSSE=-O3 -march=armv8-a -mcpu=cortex-a72 -falign-loops -falign-labels -falign-functions -falign-jumps -fomit-frame-pointer
+MSSE=-O3 -mcpu=cortex-a72 -falign-loops -falign-labels -falign-functions -falign-jumps -fomit-frame-pointer
 endif
 
 else

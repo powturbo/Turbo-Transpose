@@ -85,7 +85,7 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 |**8416**|**9795**|**tpbyte 2**|
 |**9377**|**9477**|**tpnibble 2**|
 |8382|7727|Blosc shuffle 2 |
-|2758|2532|Blosc bitshuffle 2|
+|2750|2530|Blosc bitshuffle 2|
 |**13725**|**13900**|memcpy|
 
 |E MB/s|D MB/s|Transpose 32 bits **AVX2** 2019.11|

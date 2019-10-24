@@ -31,29 +31,29 @@ Integer + Floating Point Compression Filter[![Build Status](https://travis-ci.or
 E:Encode, D:Decode<br> 
 
         ./tpbench -s# file -B16K   (# = 8,4,2)
-|E Time cycles/byte|D Time cycles/byte|Transpose 64 bits **AVX2**|
+|E cycles/byte|D cycles/byte|Transpose 64 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |.199|**.134**|**tpbyte 8**|
 |.326|.201|Blosc_shuffle 8|
 |**.394**|**.260**|**tpnibble 8**|
 |.848|.478|Bitshuffle 8|
 
-|E Time cycles/byte|D Time cycles/byte|Transpose 32 bits **AVX2**|
+|E cycles/byte|D Time cycles/byte|Transpose 32 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**.121**|**.102**|**tpbyte 4**|
 |.451|.139|Blosc_shuffle 4|
 |**.345**|**.229**|**tpnibble 4**|
 |.773|.476|Bitshuffle 4|
 
-|E Time cycles/byte|D Time cycles/byte|Transpose 16 bits **AVX2**|
+|E cycles/byte|D cycles/byte|Transpose 16 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**.095**|**.071**|**tpbyte 2**|
 |.640|.108|Blosc_shuffle 2|
 |**.329**|**.198**|**tpnibble 2**|
 |.758|1.177|Bitshuffle 2|
 |**.067**|**.067**|memcpy|
-
-|E Time MB/s| D Time MB/s| 16 bits **ARM** 2019.11|
+----------------------------------------------------------------
+|E MB/s| D MB/s| 16 bits **ARM** 2019.11|
 |--------:|---------:|-----------------------------------|
 |**8192**|**16384**|**tp_byte**|
 |  8192|  8192| blosc shuffle  |
@@ -80,7 +80,7 @@ E:Encode, D:Decode<br>
 MB/s: 1,000,000 bytes/second<br> 
 
         ./tpbench -s# file  (# = 8,4,2)
-E Time MB/s|D Time MB/s|Transpose 16 bits **AVX2**|
+E MB/s|D MB/s|Transpose 16 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**8416**|**9795**|**tpbyte 2**|
 |**9377**|**9477**|**tpnibble 2**|
@@ -88,22 +88,20 @@ E Time MB/s|D Time MB/s|Transpose 16 bits **AVX2**|
 |2758|2532|Blosc bitshuffle 2|
 |**13725**|**13900**|memcpy|
 
-|E Time MB/s|D Time MB/s|Transpose 32 bits **AVX2**|
+|E MB/s|D MB/s|Transpose 32 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**8722**|**9647**|**tpbyte 4**|
 |8734|9429|**tpnibble 4**|
 |9181|9030|Blosc shuffle 4|
 |2767|2942|Blosc bitshuffle 4|
 
-|E Time MB/s|D Time MB/s|Transpose 64 bits **AVX2**|
+|E MB/s|D MB/s|Transpose 64 bits **AVX2**|
 |------:|------:|-----------------------------------|
 |**8998**|**9543**|**tpbyte 8**|
 |8252|9214|**tpnibble 8**|
 |8721|8586|Blosc_shuffle 2|
 |2711|2053|Blosc bitshuffle 2|
-
 ----------------------------------------------------------
-
 |  E MB/s |    D MB/s| 16 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
 |**678**|**3802**|**tp_byte**|

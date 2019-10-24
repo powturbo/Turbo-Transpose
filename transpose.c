@@ -216,13 +216,6 @@ void tpini(int id) {
   if(tpset) return; 
   tpset++;   
   i = id?id:cpuiset();
-  #ifdef USE_AVX2
-  if(i >= 52) {  
-    _tpe[2] = tpenc256v2; _tpd[2] = tpdec256v2; _tp4e[2] = tp4enc256v2; _tp4d[2] = tp4dec256v2; 
-    _tpe[4] = tpenc256v4; _tpd[4] = tpdec256v4; _tp4e[4] = tp4enc256v4; _tp4d[4] = tp4dec256v4; 
-    _tpe[8] = tpenc256v8; _tpd[8] = tpdec256v8; _tp4e[8] = tp4enc256v8; _tp4d[8] = tp4dec256v8; 
-  } else 
-  #endif
   #ifdef USE_SSE
   if(i == 20) {  
     _tpe[2] = tpenc128v2; _tpd[2] = tpdec128v2; _tp4e[2] = tp4enc128v2; _tp4d[2] = tp4dec128v2;
@@ -232,6 +225,13 @@ void tpini(int id) {
   if(i == 35) { 
                           _tpd[8] = tpdec8;                                                
   }
+  #endif
+  #ifdef USE_AVX2
+  if(i >= 52) {  
+    _tpe[2] = tpenc256v2; _tpd[2] = tpdec256v2; _tp4e[2] = tp4enc256v2; _tp4d[2] = tp4dec256v2; 
+    _tpe[4] = tpenc256v4; _tpd[4] = tpdec256v4; _tp4e[4] = tp4enc256v4; _tp4d[4] = tp4dec256v4; 
+    _tpe[8] = tpenc256v8; _tpd[8] = tpdec256v8; _tp4e[8] = tp4enc256v8; _tp4d[8] = tp4dec256v8; 
+  } else 
   #endif
 }
 

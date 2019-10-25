@@ -106,22 +106,22 @@ E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 |--------:|---------:|-----------------------------------|
 |**872**|**3998**|**TurboTranspose Byte**|
 |  678|  3852| blosc byteshuffle|
-|**1361**|**2195**|**TurboTranspose Nibble**|
+|**1365**|**2195**|**TurboTranspose Nibble**|
 |  357|   280| blosc bitshuffle|
 | 3921|  3913| memcpy|
 
 |  E MB/s |    D MB/s| 32 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
-|**1800**|**3768**|**TurboTranspose Byte**|
-|1769|3713|**blosc byteshuffle**|
-|**1456**|**2295**|**TurboTranspose Nibble**|
+|**1828**|**3768**|**TurboTranspose Byte**|
+|1769|3713|blosc byteshuffle|
+|**1456**|**2299**|**TurboTranspose Nibble**|
 |   374 |  243| blosc bitshuffle|
 
 |  E MB/s |    D MB/s| 64 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|
 |**1793**|**3572**|**TurboTranspose Byte**
 |1784| 3544|**blosc byteshuffle**
-|**1162**|**1267**|**TurboTranspose Nibble**
+|**1176**|**1267**|**TurboTranspose Nibble**
 |   331 |  203| blosc bitshuffle
 
 #### - Compression test (transpose/shuffle+lz4)
@@ -259,4 +259,4 @@ eTp4Lzt = lossy compression with allowed error = 0.0001<br />
            :green_book:[ SPDP - An Automatically Synthesized Lossless Compression Algorithm for Floating-Point Data](http://cs.txstate.edu/~mb92/papers/dcc18.pdf) + [DCC 2018](http://www.cs.brandeis.edu//~dcc/Programs/Program2018.pdf)
 - <a name="fpc"></a>:green_book:[ FPC: A High-Speed Compressor for Double-Precision Floating-Point Data](http://www.cs.txstate.edu/~burtscher/papers/tc09.pdf)
 
-Last update: 24 Oct 2019
+Last update: 25 Oct 2019

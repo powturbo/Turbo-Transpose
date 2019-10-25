@@ -82,25 +82,26 @@ MB/s: 1,000,000 bytes/second<br>
         ./tpbench -s# file  (# = 8,4,2)
 E MB/s|D MB/s|Transpose 16 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**9160**|**9795**|**TurboTranspose Byte**|
+|**9208**|**9795**|**TurboTranspose Byte**|
 |8382|7689|Blosc byteshuffle|
-|**9377**|**9477**|**TurboTranspose Nibble**|
+|**9377**|**9584**|**TurboTranspose Nibble**|
 |2750|2530|Blosc bitshuffle|
 |13725|13900|memcpy|
 
 |E MB/s|D MB/s|Transpose 32 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**9694**|**9647**|**TurboTranspose Byte**|
+|**9718**|**9713**|**TurboTranspose Byte**|
 |9181|9030|Blosc byteshuffle|
-|**8734**|**9429**|**TurboTranspose Nibble**|
+|**8750**|**9472**|**TurboTranspose Nibble**|
 |2767|2942|Blosc bitshuffle 4|
 
 |E MB/s|D MB/s|Transpose 64 bits **AVX2** 2019.11|
 |------:|------:|-----------------------------------|
-|**8998**|**9543**|**TurboTranspose Byte**|
+|**8998**|**9573**|**TurboTranspose Byte**|
 |8721|8586|Blosc byteshuffle 2|
-|**8252**|**9214**|**TurboTranspose Nibble**|
+|**8252**|**9222**|**TurboTranspose Nibble**|
 |2711|2053|Blosc bitshuffle 2|
+
 ----------------------------------------------------------
 |  E MB/s |    D MB/s| 16 bits ARM 2019.11|
 |--------:|---------:|-----------------------------------|

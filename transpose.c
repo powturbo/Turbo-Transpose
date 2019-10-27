@@ -937,7 +937,6 @@ void TEMPLATE2(TPENC256V, ESIZE)(unsigned char *in, unsigned n, unsigned char *o
     iv[1] = _mm256_permutevar8x32_epi32(_mm256_unpackhi_epi64(ov[0], ov[2]), pv);
     iv[2] = _mm256_permutevar8x32_epi32(_mm256_unpacklo_epi64(ov[1], ov[3]), pv);
     iv[3] = _mm256_permutevar8x32_epi32(_mm256_unpackhi_epi64(ov[1], ov[3]), pv);   
-        #endif
       #else
     ov[0] = _mm256_shuffle_epi8(LD256((__m256i *) ip    ), sv); 
     ov[1] = _mm256_shuffle_epi8(LD256((__m256i *)(ip+32)), sv); 

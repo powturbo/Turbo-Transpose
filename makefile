@@ -115,13 +115,13 @@ CXXFLAGS+=$(DDEBUG) -w -fpermissive -Wall -fno-rtti -Iext/FastPFor/headers $(DEF
 all: tpbench
 
 transpose.o: transpose.c
-	$(CC) -O3 $(CFLAGS) $(COPT) -c -DUSE_SSE -falign-functions -falign-loops transpose.c -o transpose.o
+	$(CC) -O3 $(CFLAGS) $(COPT) -c -DUSE_SSE -falign-loops transpose.c -o transpose.o
 
 transpose_sse.o: transpose.c
-	$(CC) -O3 $(CFLAGS) $(COPT) -DSSE2_ON $(MSSE) -falign-functions -falign-loops -c transpose.c -o transpose_sse.o
+	$(CC) -O3 $(CFLAGS) $(COPT) -DSSE2_ON $(MSSE) -falign-loops -c transpose.c -o transpose_sse.o
 
 transpose_avx2.o: transpose.c
-	$(CC) -O3 $(CFLAGS) $(COPT) -DAVX2_ON $(MAVX2) -falign-functions -falign-loops -c transpose.c -o transpose_avx2.o
+	$(CC) -O3 $(CFLAGS) $(COPT) -DAVX2_ON $(MAVX2) -falign-loops -c transpose.c -o transpose_avx2.o
 
 
 #-------- BLOSC + BitShuffle -----------------------
